@@ -21,7 +21,7 @@ public class UserSchedule {
 
     private final UserCmdRepository userCmdRepository;
     private final UserQueryRepository userQueryRepository;
-
+//
     @Scheduled(fixedRate = 3000)
     @Transactional
     public void userSyncSchedule() {
