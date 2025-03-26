@@ -2,17 +2,11 @@ package com.dev.hobby.user.event.schedule;
 
 import com.dev.hobby.user.domain.repository.UserCmdRepository;
 import com.dev.hobby.user.domain.repository.UserQueryRepository;
-import com.dev.hobby.user.infrastructure.persistence.mongo.entity.UserDocument;
-import com.dev.hobby.user.infrastructure.persistence.mysql.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -25,6 +19,7 @@ public class UserSchedule {
     @Scheduled(fixedRate = 3000)
     @Transactional
     public void userSyncSchedule() {
+        /*
         List<UserEntity> unSyncedEvents = userCmdRepository.findTop50BySyncedAtIsNullOrderByCreatedAt();
         for(UserEntity unSyncedEvent : unSyncedEvents){
             Optional<UserDocument>  documentOpt = userQueryRepository.findByUniqueId(unSyncedEvent.getUniqueId());
@@ -50,5 +45,6 @@ public class UserSchedule {
             unSyncedEvent.setSyncedAt(LocalDateTime.now());
             userCmdRepository.save(unSyncedEvent);
         }
+         */
     }
 }

@@ -9,16 +9,9 @@ package com.dev.hobby.user.application.command.mapper;
 
 import com.dev.hobby.user.application.command.dto.UserPostRequest;
 import com.dev.hobby.user.domain.model.UserDomain;
-import com.dev.hobby.user.infrastructure.persistence.mysql.entity.UserEntity;
+import lombok.experimental.UtilityClass;
 
-/**
- * DTO와 도메인 객체(User) 간의 변환을 수동으로 처리하는 매퍼 클래스입니다.
- *
- * - 수동으로 변환 메서드를 작성하여 MapStruct 없이 직접 매핑을 처리합니다.
- */
-/**
- * DTO → Domain → Entity 변환을 위한 매퍼 클래스입니다.
- */
+@UtilityClass
 public class UserMapper {
 
     // DTO → Domain 변환
@@ -27,24 +20,6 @@ public class UserMapper {
                 .uniqueId(uniqueId)
                 .email(dto.getEmail())
                 .password(dto.getPassword())
-                .build();
-    }
-
-    // Domain → Entity 변환
-    public static UserEntity toEntity(UserDomain domain) {
-        return UserEntity.builder()
-                .uniqueId(domain.getUniqueId())
-                .email(domain.getEmail())
-                .password(domain.getPassword())
-                .build();
-    }
-
-    // Entity → Domain 변환
-    public static UserDomain toDomain(UserEntity entity) {
-        return UserDomain.builder()
-                .uniqueId(entity.getUniqueId())
-                .email(entity.getEmail())
-                .password(entity.getPassword())
                 .build();
     }
 }

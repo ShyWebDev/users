@@ -14,14 +14,4 @@ public class OutBoxEventDomain {
     private String payload;
     private String status;
     private Integer retryCount;
-
-    public static OutBoxEventDomain createOutboxDomain(String uniqueId, String eventType, String payload){
-        return OutBoxEventDomain.builder()
-                .uniqueId(uniqueId)
-                .eventType(eventType)
-                .eventOrderNo(0L)
-                .payload(payload)
-                .retryCount(0)
-                .build();
-    }
 }

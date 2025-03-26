@@ -1,8 +1,8 @@
 package com.dev.hobby.user.application.command.handler;
 
+import com.dev.hobby.user.application.command.dto.UserCmdResponse;
 import com.dev.hobby.user.application.command.dto.UserPostRequest;
-import com.dev.hobby.user.interfaces.response.UserCmdResponse;
-import com.dev.hobby.user.domain.service.UserDomainService;
+import com.dev.hobby.user.application.command.service.UserDomainService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

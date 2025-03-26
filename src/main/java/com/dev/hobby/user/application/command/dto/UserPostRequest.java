@@ -20,9 +20,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor             // @Builder 작동을 위해 필요
 public class UserPostRequest {
 
-    @NotBlank(message = "사용자 이름은 필수값입니다.")
-    private String userName;
-
     @NotBlank(message = "이메일은 필수값입니다.")
     @Pattern(
             regexp = "^(?!\\.)(?!.*\\.\\.)([a-zA-Z0-9._%+-]+)@([a-zA-Z0-9.-]+)\\.([a-zA-Z]{2,})$",
@@ -33,6 +30,9 @@ public class UserPostRequest {
 
     @NotBlank(message = "비밀번호는 필수값입니다.")
     private String password;
+
+    @NotBlank(message = "사용자 이름은 필수값입니다.")
+    private String userName;
 
     @Schema(description = "callbackUrl은 필수값입니다." , example = "https://www.hunet.co.kr")
     private String callBackUrl;

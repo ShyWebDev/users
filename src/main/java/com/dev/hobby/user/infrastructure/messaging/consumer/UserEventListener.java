@@ -1,7 +1,7 @@
 package com.dev.hobby.user.infrastructure.messaging.consumer;
 
-import com.dev.hobby.user.domain.OutBoxStatus;
-import com.dev.hobby.user.infrastructure.messaging.outbox.OutboxEventCmdRepository;
+import com.dev.hobby.user.domain.event.OutBoxStatus;
+import com.dev.hobby.user.domain.repository.OutboxEventCmdRepository;
 import com.dev.hobby.user.infrastructure.messaging.outbox.OutboxEventEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class UserEventListener {
-
+/*
     private final OutboxEventCmdRepository outboxEventCmdRepository;
     @Scheduled(fixedRate = 3000)
     @Transactional
@@ -25,7 +25,7 @@ public class UserEventListener {
 
         if(ObjectUtils.isEmpty(outboxEventEntityList))
             return;
-        /*
+
         for(OutboxEventEntity outboxEventEntity : outboxEventEntityList) {
             try{
                 OutBoxEventDomain outBoxEventDomain = outboxEventMapper.toDomain(outboxEventEntity);
@@ -39,6 +39,7 @@ public class UserEventListener {
                 log.error("Error while processing outbox event", e);
             }
         }
-        */
+
     }
+    */
 }

@@ -23,6 +23,8 @@ public class UserDocument {
     @Setter
     private String password;
 
+    private String name;
+
     private LocalDateTime createdAt;
 
     @Setter
