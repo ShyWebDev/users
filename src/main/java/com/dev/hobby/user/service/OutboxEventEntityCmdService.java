@@ -1,9 +1,9 @@
 package com.dev.hobby.user.service;
 
 import com.dev.hobby.user.domain.OutBoxStatus;
-import com.dev.hobby.user.entitys.entity.OutboxEventEntity;
-import com.dev.hobby.user.exceptions.UserException;
-import com.dev.hobby.user.repository.entity.OutboxEventCmdRepository;
+import com.dev.hobby.user.infrastructure.messaging.outbox.OutboxEventCmdRepository;
+import com.dev.hobby.user.infrastructure.messaging.outbox.OutboxEventEntity;
+import com.dev.hobby.user.interfaces.exception.CustomException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -25,7 +25,7 @@ public class OutboxEventEntityCmdService {
             outboxEventEntity.setStatus(OutBoxStatus.FAILED.toString());
             outboxEventEntity.setSyncedAt(null);
             otBoxEventCmdRepository.save(outboxEventEntity);
-            throw new UserException("재시도 횟수 초과");
+            throw new CustomException("재시도 횟수 초과");
         }
         outboxEventEntity.setStatus(OutBoxStatus.RECEIVED.toString());
         outboxEventEntity.setSyncedAt(null);

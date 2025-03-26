@@ -1,9 +1,9 @@
 package com.dev.hobby.user.event.schedule;
 
-import com.dev.hobby.user.entitys.document.UserDocument;
-import com.dev.hobby.user.entitys.entity.UserEntity;
-import com.dev.hobby.user.repository.document.UserQueryRepository;
-import com.dev.hobby.user.repository.entity.UserCmdRepository;
+import com.dev.hobby.user.domain.repository.UserCmdRepository;
+import com.dev.hobby.user.domain.repository.UserQueryRepository;
+import com.dev.hobby.user.infrastructure.persistence.mongo.entity.UserDocument;
+import com.dev.hobby.user.infrastructure.persistence.mysql.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;

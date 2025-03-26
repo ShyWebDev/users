@@ -1,6 +1,6 @@
 package com.dev.hobby.user.repository.document;
 
-import com.dev.hobby.user.entitys.document.OutboxEventDocument;
+import com.dev.hobby.user.infrastructure.persistence.mongo.entity.OutboxEventDocument;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;

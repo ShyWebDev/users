@@ -1,7 +1,7 @@
 package com.dev.hobby.user.mappers;
 
-import com.dev.hobby.user.domain.UserDomain;
-import com.dev.hobby.user.entitys.entity.UserEntity;
+import com.dev.hobby.user.domain.model.UserDomain;
+import com.dev.hobby.user.infrastructure.persistence.mysql.entity.UserEntity;
 import org.springframework.stereotype.Component;
 
 @Component

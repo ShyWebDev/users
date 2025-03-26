@@ -1,6 +1,6 @@
 package com.dev.hobby.user.service;
 
-import com.dev.hobby.user.entitys.document.OutboxEventDocument;
+import com.dev.hobby.user.infrastructure.persistence.mongo.entity.OutboxEventDocument;
 import com.dev.hobby.user.repository.document.OutboxEventQueryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

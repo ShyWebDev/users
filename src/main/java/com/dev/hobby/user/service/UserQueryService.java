@@ -1,11 +1,11 @@
 package com.dev.hobby.user.service;
 
+import com.dev.hobby.user.interfaces.response.UserResponse;
 import com.dev.hobby.user.domain.OutBoxStatus;
-import com.dev.hobby.user.dto.UserResponse;
-import com.dev.hobby.user.entitys.document.OutboxEventDocument;
-import com.dev.hobby.user.entitys.document.UserDocument;
-import com.dev.hobby.user.exceptions.UserException;
-import com.dev.hobby.user.repository.document.UserQueryRepository;
+import com.dev.hobby.user.domain.repository.UserQueryRepository;
+import com.dev.hobby.user.infrastructure.persistence.mongo.entity.OutboxEventDocument;
+import com.dev.hobby.user.infrastructure.persistence.mongo.entity.UserDocument;
+import com.dev.hobby.user.interfaces.exception.CustomException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -26,7 +26,7 @@ public class UserQueryService {
 
     public UserResponse getUserByUniqueId(String uniqueId){
         if(ObjectUtils.isEmpty(uniqueId))
-            throw new UserException("사용자 유일키는 필수값입니다.");
+            throw new CustomException("사용자 유일키는 필수값입니다.");
 
         Optional<UserDocument> userDocumentOpt = userQueryRepository.findByUniqueId(uniqueId);
         if(userDocumentOpt.isPresent())
@@ -35,12 +35,12 @@ public class UserQueryService {
             Optional<OutboxEventDocument> outboxEventDocumentOpt = outboxEventDocumentService.getOutBoxEventEntityByUniqueId(uniqueId);
             if(outboxEventDocumentOpt.isPresent()){
                 if(OutBoxStatus.FAILED.toString().equals(outboxEventDocumentOpt.get().getStatus()))
-                    throw new UserException("사용자 정보 처리중 오류가 발생했습니다.");
+                    throw new CustomException("사용자 정보 처리중 오류가 발생했습니다.");
 
-                throw new UserException("사용자 정보를 처리중입니다.");
+                throw new CustomException("사용자 정보를 처리중입니다.");
             }
             else
-                throw new UserException("사용자 정보가 없습니다.");
+                throw new CustomException("사용자 정보가 없습니다.");
         }
     }
 }

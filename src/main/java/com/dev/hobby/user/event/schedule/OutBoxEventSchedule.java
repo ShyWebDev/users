@@ -1,19 +1,16 @@
 package com.dev.hobby.user.event.schedule;
 
-import com.dev.hobby.user.domain.OutBoxEventDomain;
-import com.dev.hobby.user.domain.OutBoxStatus;
-import com.dev.hobby.user.entitys.document.OutboxEventDocument;
-import com.dev.hobby.user.entitys.entity.OutboxEventEntity;
+import com.dev.hobby.user.infrastructure.messaging.outbox.OutboxEventCmdRepository;
+import com.dev.hobby.user.infrastructure.messaging.outbox.OutboxEventEntity;
+import com.dev.hobby.user.infrastructure.persistence.mongo.entity.OutboxEventDocument;
 import com.dev.hobby.user.mappers.OutboxEventMapper;
 import com.dev.hobby.user.repository.document.OutboxEventQueryRepository;
-import com.dev.hobby.user.repository.entity.OutboxEventCmdRepository;
 import com.dev.hobby.user.service.UserCmdService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ObjectUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -63,41 +60,7 @@ public class OutBoxEventSchedule{
         }
     }
 
-    @Scheduled(fixedRate = 3000)
-    @Transactional
-    public void outBoxEventProducer() {
-        List<OutboxEventEntity> outboxEventEntityList = outboxEventCmdRepository.findAllByStatusAndRetryCountLessThanEqual(OutBoxStatus.RECEIVED.toString(),3);
 
-        if(ObjectUtils.isEmpty(outboxEventEntityList))
-            return;
 
-        for(OutboxEventEntity outboxEventEntity : outboxEventEntityList) {
-            log.info("1.outBoxEventProducer");
-            outboxEventEntity.setStatus(OutBoxStatus.PUBLISHING.toString());
-            outboxEventEntity.setSyncedAt(null);
-        }
-    }
 
-    @Scheduled(fixedRate = 3000)
-    @Transactional
-    public void outBoxEventConsumer() {
-        List<OutboxEventEntity> outboxEventEntityList = outboxEventCmdRepository.findAllByStatus(OutBoxStatus.PUBLISHING.toString());
-
-        if(ObjectUtils.isEmpty(outboxEventEntityList))
-            return;
-
-        for(OutboxEventEntity outboxEventEntity : outboxEventEntityList) {
-            try{
-                OutBoxEventDomain outBoxEventDomain = outboxEventMapper.toDomain(outboxEventEntity);
-
-                outboxEventEntity.setStatus(OutBoxStatus.PUBLISHED.toString());
-                outboxEventEntity.setSyncedAt(null);
-                outboxEventCmdRepository.save(outboxEventEntity);
-
-                userCmdService.registerUserByOutboxEventDomain(outBoxEventDomain);
-            }catch (Exception e){
-                log.error("Error while processing outbox event", e);
-            }
-        }
-    }
 }

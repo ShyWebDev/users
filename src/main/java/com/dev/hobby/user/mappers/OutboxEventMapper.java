@@ -1,8 +1,8 @@
 package com.dev.hobby.user.mappers;
 
-import com.dev.hobby.user.domain.OutBoxEventDomain;
-import com.dev.hobby.user.entitys.document.OutboxEventDocument;
-import com.dev.hobby.user.entitys.entity.OutboxEventEntity;
+import com.dev.hobby.user.domain.model.OutBoxEventDomain;
+import com.dev.hobby.user.infrastructure.messaging.outbox.OutboxEventEntity;
+import com.dev.hobby.user.infrastructure.persistence.mongo.entity.OutboxEventDocument;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -1,36 +1,16 @@
 package com.dev.hobby.user.service;
 
-import com.dev.hobby.user.domain.OutBoxEventDomain;
-import com.dev.hobby.user.domain.OutBoxStatus;
-import com.dev.hobby.user.domain.UserDomain;
-import com.dev.hobby.user.dto.UserCmdResponse;
-import com.dev.hobby.user.dto.UserPostRequest;
-import com.dev.hobby.user.entitys.entity.OutboxEventEntity;
-import com.dev.hobby.user.entitys.entity.UserEntity;
-import com.dev.hobby.user.exceptions.UserException;
-import com.dev.hobby.user.mappers.OutboxEventMapper;
-import com.dev.hobby.user.mappers.UserMapper;
-import com.dev.hobby.user.repository.entity.OutboxEventCmdRepository;
-import com.dev.hobby.user.repository.entity.UserCmdRepository;
-import com.dev.hobby.user.repository.entity.UserDuplicationChecker;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ObjectUtils;
-
-import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 @Transactional
 public class UserCmdService {
-
+    /*
     private final ObjectProvider<UserCmdService> self;
 
     private final UserCmdRepository userCmdRepository;
@@ -51,20 +31,20 @@ public class UserCmdService {
                 return null;
 
             if(ObjectUtils.isEmpty(userPostRequest))
-                throw new UserException("입력내용이 없습니다.");
+                throw new CustomException("입력내용이 없습니다.");
 
             if(ObjectUtils.isEmpty(userPostRequest.getUserName()))
-                throw new UserException("사용자 이름은 필수값입니다.");
+                throw new CustomException("사용자 이름은 필수값입니다.");
 
             if(ObjectUtils.isEmpty(userPostRequest.getEmail()))
-                throw new UserException("이메일은 필수값입니다.");
+                throw new CustomException("이메일은 필수값입니다.");
 
             if(ObjectUtils.isEmpty(userPostRequest.getPassword()))
-                throw new UserException("비밀번호는 필수값입니다.");
+                throw new CustomException("비밀번호는 필수값입니다.");
 
             String emailRegex  ="^(?!\\.)(?!.*\\.\\.)([a-zA-Z0-9._%+-]+)@([a-zA-Z0-9.-]+)\\.([a-zA-Z]{2,})$";
             if(!userPostRequest.getEmail().matches(emailRegex))
-                throw new UserException("이메일 형식이 올바르지 않습니다.");
+                throw new CustomException("이메일 형식이 올바르지 않습니다.");
 
             String uniqueId = UUID.randomUUID().toString();
 
@@ -89,11 +69,11 @@ public class UserCmdService {
                    .thenAccept(userDomain -> {
                        try{
                            // 도메인 비즈니스로직
-                           UserEntity userEntity = userMapper.toEntity(userDomain);
+                           UserEntity userEntity = null;//userMapper.toEntity(userDomain);
                            self.getIfAvailable().saveEntityAsync(userEntity);
                        }catch (Exception e){
                            log.error("registerUserByUserRequest saveEntityWithOutbox error", e);
-                           throw new UserException("사용자 서비스 오류입니다.");
+                           throw new CustomException("사용자 서비스 오류입니다.");
                        }
                    });
             });
@@ -118,7 +98,7 @@ public class UserCmdService {
                     return self.getIfAvailable().saveEntityAsync(userEntity);
                 }catch (Exception e){
                     log.error("registerUserByUserRequest saveEntityWithOutbox error", e);
-                    throw new UserException("사용자 서비스 오류입니다.");
+                    throw new CustomException("사용자 서비스 오류입니다.");
                 }
             }).exceptionally(ex->{
                 log.error("registerUserByOutboxEventDomain", ex);
@@ -170,4 +150,5 @@ public class UserCmdService {
         outboxEventCmdRepository.save(outboxEventEntity);
     }
 
+     */
 }
