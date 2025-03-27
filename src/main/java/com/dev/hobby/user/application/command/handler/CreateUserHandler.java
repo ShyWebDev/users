@@ -1,7 +1,9 @@
 package com.dev.hobby.user.application.command.handler;
 
+import com.dev.hobby.user.api.dto.CreateUserCmd;
+import com.dev.hobby.user.api.dto.CreateUserResult;
 import com.dev.hobby.user.api.dto.UserCmdResponse;
-import com.dev.hobby.user.api.dto.UserPostRequest;
+import com.dev.hobby.user.api.dto.UserCmdRequest;
 import com.dev.hobby.user.application.command.service.UserDomainService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -16,20 +18,8 @@ public class CreateUserHandler {
 
     private final UserDomainService userDomainService;  // 도메인 서비스
 
-    /**
-     * 사용자 생성 명령을 처리합니다.
-     * @param request 사용자 생성 요청 DTO
-     * @return 사용자 생성 응답 DTO
-     */
-    public UserCmdResponse handle(UserPostRequest request) {
-        // 비즈니스 로직을 도메인 서비스에 위임하여 사용자 생성
-        String uniqueId = userDomainService.createUser(request);
 
-        // 사용자 생성 후 응답 DTO 생성
-        // UUID와 사용자 정보를 포함한 응답을 반환
-        return UserCmdResponse.builder()
-                .uniqueId(uniqueId)
-                .callBackUrl(request.getCallBackUrl())
-                .build();
+    public CreateUserResult handle(CreateUserCmd createUserCmd) {
+        return userDomainService.createUser(createUserCmd);
     }
 }

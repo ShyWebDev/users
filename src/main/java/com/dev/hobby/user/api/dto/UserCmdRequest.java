@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Builder                        // 테스트시에 명확하게 사용하기위해
 @NoArgsConstructor              // Jackson 역직렬화를 위해 필요
 @AllArgsConstructor             // @Builder 작동을 위해 필요
-public class UserPostRequest {
+public class UserCmdRequest {
 
     @NotBlank(message = "이메일은 필수값입니다.")
     @Pattern(

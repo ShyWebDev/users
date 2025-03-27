@@ -1,4 +1,4 @@
-package com.dev.hobby.user.application.query.mapper;
+package com.dev.hobby.user.application.mapper;
 
 import com.dev.hobby.user.api.dto.UserQueryResponse;
 import com.dev.hobby.user.domain.model.UserDomain;

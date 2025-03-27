@@ -1,7 +1,7 @@
 package com.dev.hobby.user.application.query.service;
 
 import com.dev.hobby.user.api.dto.UserQueryResponse;
-import com.dev.hobby.user.application.query.mapper.UserQueryMapper;
+import com.dev.hobby.user.application.mapper.UserQueryMapper;
 import com.dev.hobby.user.domain.repository.UserQueryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

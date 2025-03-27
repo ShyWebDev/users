@@ -1,8 +1,11 @@
 package com.dev.hobby.user.api.controller;
 
+import com.dev.hobby.user.api.dto.CreateUserCmd;
+import com.dev.hobby.user.api.dto.CreateUserResult;
 import com.dev.hobby.user.api.dto.UserCmdResponse;
-import com.dev.hobby.user.api.dto.UserPostRequest;
+import com.dev.hobby.user.api.dto.UserCmdRequest;
 import com.dev.hobby.user.application.command.handler.CreateUserHandler;
+import com.dev.hobby.user.application.mapper.UserMapper;
 import com.dev.hobby.user.common.CommonResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -26,9 +29,17 @@ public class UserCmdController {
 
     @Operation(summary = "사용자등록")
     @PostMapping("")
-    public ResponseEntity<CommonResponse<UserCmdResponse>> createUser(@Valid @RequestBody UserPostRequest userPostRequest){
-        // 비즈니스 로직 처리 (사용자 생성)
-        UserCmdResponse response = createUserHandler.handle(userPostRequest);
+    public ResponseEntity<CommonResponse<UserCmdResponse>> createUser(@Valid @RequestBody UserCmdRequest userCmdRequest){
+        // 외부요청 DTO를 내부 명령 객체로 변환
+        // 웹계층과 APP계층 분리
+        // 객채 변환 로직을 중앙 집중하기 위해 MAPPER사용
+        var createUserCmd = UserMapper.byUserCmdRequest(userCmdRequest);
+
+        // 결과 캡슐화
+        // 생성된 CMD 객체를 핸들러에 전달해 비즈니스 로직실행
+        var createUserResult = createUserHandler.handle(createUserCmd);
+
+        var response = UserMapper.byCreateUserResult(createUserResult);
 
         return ResponseEntity.ok(CommonResponse.success(response));
     }
