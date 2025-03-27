@@ -1,9 +1,6 @@
 package com.dev.hobby.user.domain.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -19,6 +16,9 @@ public class UserDomain {
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    @Setter
+    private LocalDateTime syncedAt;
 
 /*
     public static void valid(String email, String password, UserDuplicationChecker userDuplicationChecker) {

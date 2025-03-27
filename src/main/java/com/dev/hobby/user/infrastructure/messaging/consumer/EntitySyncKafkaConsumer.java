@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 @Slf4j
 @Profile("dev")
-public class DomainSyncKafkaConsumer {
+public class EntitySyncKafkaConsumer {
 
     private final OutboxEventSyncService outboxSyncService;
     private final UserSyncService userSyncService;
@@ -27,7 +27,7 @@ public class DomainSyncKafkaConsumer {
         if (message.startsWith("OUTBOX:")) {
             String uniqueId = message.substring("OUTBOX:".length());
             // Outbox 이벤트에 대한 동기화 처리
-            outboxSyncService.syncOutboxEvents();
+            outboxSyncService.syncOutboxEvent();
         } else if (message.startsWith("USER:")) {
             String userId = message.substring("USER:".length());
             // 사용자 데이터 동기화 처리

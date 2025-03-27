@@ -9,8 +9,9 @@ import java.util.Optional;
 
 public interface OutboxEventCmdRepository{
     Optional<OutboxEventEntity> findByUniqueId(String uniqueId);
-    void  save(OutBoxEventDomain outBoxEventDomain);
+    OutboxEventEntity save(OutboxEventEntity outboxEventEntity);
     List<OutboxEventEntity> findTop50BySyncedAtIsNullOrderByCreatedAt();
+
     //List<OutboxEventEntity> findAllByStatusAndRetryCountLessThanEqual(String status, Integer retryCount);
     //List<OutboxEventEntity> findAllByStatus(String status);
 

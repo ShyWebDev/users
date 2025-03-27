@@ -3,6 +3,7 @@ package com.dev.hobby.user.application.command.service;
 import com.dev.hobby.user.api.dto.CreateUserCmd;
 import com.dev.hobby.user.api.dto.CreateUserResult;
 import com.dev.hobby.user.application.mapper.UserDomainMapper;
+import com.dev.hobby.user.application.mapper.UserRepositoryMapper;
 import com.dev.hobby.user.common.CustomException;
 import com.dev.hobby.user.domain.event.OutBoxStatus;
 import com.dev.hobby.user.domain.model.OutBoxEventDomain;
@@ -83,7 +84,7 @@ public class UserDomainService {
             String encodedPassword = createUserCmd.getPassword();//passwordEncoder.encode(request.getPassword());
 
             userDomain.setPassword(encodedPassword);
-            userCmdRepository.save(userDomain);
+            userCmdRepository.save(UserRepositoryMapper.toUserEntity(userDomain));
 
             outBoxEventDomain.setStatus(OutBoxStatus.SUCCESS.toString());
             // 아웃박스 이벤트를 DB에 저장

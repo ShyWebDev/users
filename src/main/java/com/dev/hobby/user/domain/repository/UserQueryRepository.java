@@ -2,6 +2,7 @@ package com.dev.hobby.user.domain.repository;
 
 
 import com.dev.hobby.user.domain.model.UserDomain;
+import com.dev.hobby.user.infrastructure.persistence.mongo.entity.UserDocument;
 
 import java.util.Optional;
 
@@ -10,5 +11,7 @@ import java.util.Optional;
  * 읽기 전용 작업을 처리합니다.
  */
 public interface UserQueryRepository{
-    Optional<UserDomain> findByUniqueId(String uniqueId);
+
+    UserDocument save(UserDocument userDocument);
+    Optional<UserDocument> findByUniqueId(String uniqueId);
 }

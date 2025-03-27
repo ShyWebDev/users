@@ -23,10 +23,13 @@ public class UserDocument {
     @Setter
     private String password;
 
+    @Setter
     private String name;
 
     private LocalDateTime createdAt;
 
     @Setter
     private LocalDateTime updatedAt;
+
+    private LocalDateTime syncedAt;
 }

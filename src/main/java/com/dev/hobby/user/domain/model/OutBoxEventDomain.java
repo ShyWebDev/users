@@ -5,6 +5,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Builder
 @EqualsAndHashCode
@@ -19,4 +21,10 @@ public class OutBoxEventDomain {
 
     @Setter
     private Integer retryCount;
+
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
+    @Setter
+    private LocalDateTime syncedAt;
 }

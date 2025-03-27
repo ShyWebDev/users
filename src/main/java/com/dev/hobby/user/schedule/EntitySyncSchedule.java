@@ -12,18 +12,14 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 @Slf4j
 @Profile({"local","default"})
-public class DomainSyncSchedule {
+public class EntitySyncSchedule {
 
     private final OutboxEventSyncService outboxSyncService;
     private final UserSyncService userSyncService;
 
-
-    /**
-     * 10초마다 Outbox 이벤트와 사용자 데이터를 동기화
-     */
     @Scheduled(fixedDelay = 10000)
     public void syncDomains() {
-        outboxSyncService.syncOutboxEvents();
+        outboxSyncService.syncOutboxEvent();
         userSyncService.syncUsers();
     }
 }

@@ -27,7 +27,7 @@ public class OutboxEventCmdRepositoryAdapter implements OutboxEventCmdRepository
     }
 
     @Override
-    public void save(OutBoxEventDomain outBoxEventDomain) {
-        jpaOutboxEventRepository.save(OutboxEventMapper.toEntity(outBoxEventDomain));
+    public OutboxEventEntity save(OutboxEventEntity outboxEventEntity) {
+        return jpaOutboxEventRepository.save(outboxEventEntity);
     }
 }

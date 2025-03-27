@@ -3,20 +3,21 @@ package com.dev.hobby.user.application.mapper;
 import com.dev.hobby.user.api.dto.UserQueryResponse;
 import com.dev.hobby.user.domain.model.UserDomain;
 import com.dev.hobby.user.infrastructure.persistence.mongo.entity.UserDocument;
+import com.dev.hobby.user.infrastructure.persistence.mysql.entity.UserEntity;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class UserQueryMapper {
 
-    // DTO → Domain 변환
-    public static UserDomain toDomain(UserDocument document) {
-        return UserDomain.builder()
-                .uniqueId(document.getUniqueId())
-                .email(document.getEmail())
-                .password(document.getPassword())
-                .name(document.getEmail())
-                .createdAt(document.getCreatedAt())
-                .updatedAt(document.getUpdatedAt())
+    public static UserDocument toDocument(UserEntity entity) {
+        return UserDocument.builder()
+                .uniqueId(entity.getUniqueId())
+                .email(entity.getEmail())
+                .password(entity.getPassword())
+                .name(entity.getEmail())
+                .createdAt(entity.getCreatedAt())
+                .updatedAt(entity.getUpdatedAt())
+                .syncedAt(entity.getSyncedAt())
                 .build();
     }
 

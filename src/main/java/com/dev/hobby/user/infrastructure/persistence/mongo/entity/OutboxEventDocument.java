@@ -30,4 +30,6 @@ public class OutboxEventDocument {
 
     @Setter
     private LocalDateTime updatedAt;
+
+    private LocalDateTime syncedAt;
 }
