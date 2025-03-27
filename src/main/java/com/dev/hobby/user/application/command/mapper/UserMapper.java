@@ -9,17 +9,30 @@ package com.dev.hobby.user.application.command.mapper;
 
 import com.dev.hobby.user.application.command.dto.UserPostRequest;
 import com.dev.hobby.user.domain.model.UserDomain;
+import com.dev.hobby.user.infrastructure.persistence.mysql.entity.UserEntity;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class UserMapper {
 
     // DTO → Domain 변환
-    public static UserDomain toDomain(String uniqueId, UserPostRequest dto) {
+    public static UserDomain toDomain(String uniqueId, UserPostRequest userPostRequest) {
         return UserDomain.builder()
                 .uniqueId(uniqueId)
-                .email(dto.getEmail())
-                .password(dto.getPassword())
+                .email(userPostRequest.getEmail())
+                .password(userPostRequest.getPassword())
+                .name(userPostRequest.getName())
+                .build();
+    }
+
+    // Domain → Entity 변환
+    public static UserEntity toEntity(UserDomain userDomain) {
+        return UserEntity.builder()
+                .uniqueId(userDomain.getUniqueId())
+                .email(userDomain.getEmail())
+                .password(userDomain.getPassword())
+                .name(userDomain.getName())
+                .createdAt(userDomain.getCreatedAt())
                 .build();
     }
 }

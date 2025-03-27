@@ -3,6 +3,7 @@ package com.dev.hobby.user.infrastructure.messaging.outbox;
 import com.dev.hobby.user.domain.model.OutBoxEventDomain;
 import com.dev.hobby.user.domain.repository.OutboxEventCmdRepository;
 import com.dev.hobby.user.infrastructure.messaging.outbox.jpa.JpaOutboxEventRepository;
+import com.dev.hobby.user.infrastructure.messaging.outbox.mapper.OutboxEventMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -27,13 +28,6 @@ public class OutboxEventCmdRepositoryAdapter implements OutboxEventCmdRepository
 
     @Override
     public void save(OutBoxEventDomain outBoxEventDomain) {
-        OutboxEventEntity entity = OutboxEventEntity.builder()
-                .uniqueId(outBoxEventDomain.getUniqueId())
-                .eventType(outBoxEventDomain.getEventType())
-                .eventOrderNo(outBoxEventDomain.getEventOrderNo())
-                .payload(outBoxEventDomain.getPayload())
-                .status(outBoxEventDomain.getStatus())
-                .retryCount(outBoxEventDomain.getRetryCount())
-                .build();
+        jpaOutboxEventRepository.save(OutboxEventMapper.toEntity(outBoxEventDomain));
     }
 }

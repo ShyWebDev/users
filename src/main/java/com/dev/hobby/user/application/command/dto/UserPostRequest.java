@@ -32,7 +32,7 @@ public class UserPostRequest {
     private String password;
 
     @NotBlank(message = "사용자 이름은 필수값입니다.")
-    private String userName;
+    private String name;
 
     @Schema(description = "callbackUrl은 필수값입니다." , example = "https://www.hunet.co.kr")
     private String callBackUrl;

@@ -17,7 +17,7 @@ public class OutboxEventQueryRepositoryAdapter{
         return mongoOutboxEventRepository.findAll();
     }
 
-    public List<OutboxEventDocument> findByAggregateType(String type) {
-        return mongoOutboxEventRepository.findByAggregateType(type);
+    public List<OutboxEventDocument> findByStatus(String type) {
+        return mongoOutboxEventRepository.findByStatus(type);
     }
 }

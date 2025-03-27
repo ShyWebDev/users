@@ -82,13 +82,13 @@ public class UserDomainService {
      * @param request 사용자 생성 요청 DTO
      */
     @Async  // 비동기적으로 실행되는 메서드
-    public void processUserCreate(String uniqueId, UserPostRequest request){
+    public void processUserCreate(String uniqueId, UserPostRequest userPostRequest){
         try{
             // 비밀번호 암호화
-            String encodedPassword = request.getPassword();//passwordEncoder.encode(request.getPassword());
+            String encodedPassword = userPostRequest.getPassword();//passwordEncoder.encode(request.getPassword());
 
             // DTO → Domain 변환
-            UserDomain userDomain = UserMapper.toDomain(uniqueId, request);
+            UserDomain userDomain = UserMapper.toDomain(uniqueId, userPostRequest);
             userDomain.setPassword(encodedPassword);
 
             self.getIfAvailable().saveEntity(userDomain);
