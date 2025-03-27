@@ -14,9 +14,9 @@ public class OutboxEventMapper {
                 .payload(domain.getPayload())
                 .status(domain.getStatus())
                 .retryCount(domain.getRetryCount())
-                //.createdAt(domain.getCreatedAt())
-                //.updatedAt(domain.getCreatedAt())
-                //.syncedAt(domain.getCreatedAt())
+                .createdAt(domain.getCreatedAt())
+                .updatedAt(domain.getCreatedAt())
+                .syncedAt(domain.getCreatedAt())
                 .build();
     }
 
@@ -28,9 +28,9 @@ public class OutboxEventMapper {
                 .payload(entity.getPayload())
                 .status(entity.getStatus())
                 .retryCount(entity.getRetryCount())
-                //.createdAt(entity.getCreatedAt())
-                //.updatedAt(entity.getUpdatedAt())
-                //.syncedAt(entity.getSyncedAt())
+                .createdAt(entity.getCreatedAt())
+                .updatedAt(entity.getUpdatedAt())
+                .syncedAt(entity.getSyncedAt())
                 .build();
     }
 }

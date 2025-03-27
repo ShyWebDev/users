@@ -1,9 +1,9 @@
 package com.dev.hobby.user.infrastructure.messaging.outbox;
 
+import com.dev.hobby.user.application.mapper.OutBoxEventRepositoryMapper;
 import com.dev.hobby.user.domain.model.OutBoxEventDomain;
 import com.dev.hobby.user.domain.repository.OutboxEventCmdRepository;
 import com.dev.hobby.user.infrastructure.messaging.outbox.jpa.JpaOutboxEventRepository;
-import com.dev.hobby.user.infrastructure.messaging.outbox.mapper.OutboxEventMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -17,6 +17,11 @@ public class OutboxEventCmdRepositoryAdapter implements OutboxEventCmdRepository
     private final JpaOutboxEventRepository jpaOutboxEventRepository;
 
     @Override
+    public void save(OutBoxEventDomain domain) {
+        jpaOutboxEventRepository.save(OutBoxEventRepositoryMapper.toEntity(domain));
+    }
+
+    @Override
     public Optional<OutboxEventEntity> findByUniqueId(String uniqueId) {
         return jpaOutboxEventRepository.findByUniqueId(uniqueId);
     }
@@ -26,8 +31,5 @@ public class OutboxEventCmdRepositoryAdapter implements OutboxEventCmdRepository
         return jpaOutboxEventRepository.findTop50BySyncedAtIsNullOrderByCreatedAt();
     }
 
-    @Override
-    public OutboxEventEntity save(OutboxEventEntity outboxEventEntity) {
-        return jpaOutboxEventRepository.save(outboxEventEntity);
-    }
+
 }

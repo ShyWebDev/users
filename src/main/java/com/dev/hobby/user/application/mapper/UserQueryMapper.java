@@ -21,8 +21,8 @@ public class UserQueryMapper {
                 .build();
     }
 
-    public static UserQueryResponse toResponse(UserDomain domain) {
-        return UserQueryResponse.builder()
+    public static UserDomain toDomain(UserEntity domain) {
+        return UserDomain.builder()
                 .uniqueId(domain.getUniqueId())
                 .email(domain.getEmail())
                 .name(domain.getEmail())
@@ -30,4 +30,6 @@ public class UserQueryMapper {
                 .updatedAt(domain.getUpdatedAt())
                 .build();
     }
+
+
 }

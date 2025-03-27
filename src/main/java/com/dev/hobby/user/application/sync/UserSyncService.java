@@ -1,17 +1,19 @@
 package com.dev.hobby.user.application.sync;
 
-import com.dev.hobby.user.application.mapper.UserDomainMapper;
+import com.dev.hobby.user.application.mapper.OutboxEventQueryMapper;
+import com.dev.hobby.user.application.mapper.UserEventMapper;
 import com.dev.hobby.user.application.mapper.UserQueryMapper;
-import com.dev.hobby.user.application.mapper.UserRepositoryMapper;
-import com.dev.hobby.user.domain.model.UserDomain;
 import com.dev.hobby.user.domain.repository.UserCmdRepository;
 import com.dev.hobby.user.domain.repository.UserQueryRepository;
+import com.dev.hobby.user.infrastructure.messaging.outbox.OutboxEventEntity;
+import com.dev.hobby.user.infrastructure.messaging.outbox.mapper.OutboxEventMapper;
+import com.dev.hobby.user.infrastructure.persistence.mongo.entity.OutboxEventDocument;
 import com.dev.hobby.user.infrastructure.persistence.mongo.entity.UserDocument;
-import com.dev.hobby.user.infrastructure.persistence.mongo.spring.MongoUserRepository;
 import com.dev.hobby.user.infrastructure.persistence.mysql.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,26 +27,36 @@ public class UserSyncService {
     private final UserCmdRepository userCmdRepository;
     private final UserQueryRepository userQueryRepository;
 
+    @Transactional
     public void syncUsers() {
         List<UserEntity> userEntityList = userCmdRepository.findTop50BySyncedAtIsNullOrderByCreatedAt();
         for (UserEntity userEntity : userEntityList) {
-            Optional<UserDocument> userDocumentOpt = userQueryRepository.findByUniqueId(userEntity.getUniqueId());
-            if (userDocumentOpt.isPresent()) {
-                UserDocument userDocument = userDocumentOpt.get();
-                userDocument.setEmail(userEntity.getEmail());
-                userDocument.setPassword(userEntity.getPassword());
-                userDocument.setName(userEntity.getName());
-                userQueryRepository.save(userDocument);
-
-                userEntity.setSyncedAt(LocalDateTime.now());
-                userCmdRepository.save(userEntity);
-            } else {
-                UserDocument userDocument = UserQueryMapper.toDocument(userEntity);
-                userQueryRepository.save(userDocument);
-
-                userEntity.setSyncedAt(LocalDateTime.now());
-                userCmdRepository.save(userEntity);
+            try {
+                processUsers(userEntity);
+            } catch (Exception e) {
+                log.error("Failed to sync user. userEntity={}", userEntity, e);
             }
         }
+    }
+
+    public void processUsers(UserEntity entity) {
+        // MongoDB 저장/갱신
+        Optional<UserDocument> existingDoc =
+                userQueryRepository.findByUniqueId(entity.getUniqueId());
+
+        if (existingDoc.isPresent()) {
+            UserDocument doc = existingDoc.get();
+            doc.setEmail(entity.getEmail());
+            doc.setPassword(entity.getPassword());
+            doc.setName(entity.getName());
+            doc.setUpdatedAt(entity.getUpdatedAt());
+            userQueryRepository.save(doc);
+        } else {
+            UserDocument newDoc = UserQueryMapper.toDocument(entity);
+            userQueryRepository.save(newDoc);
+        }
+
+        entity.setSyncedAt(LocalDateTime.now());
+        userCmdRepository.save(UserEventMapper.toDomain(entity));
     }
 }

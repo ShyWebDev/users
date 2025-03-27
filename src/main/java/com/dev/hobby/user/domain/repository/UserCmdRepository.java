@@ -12,7 +12,7 @@ import java.util.Optional;
  */
 
 public interface UserCmdRepository {
-    UserEntity save(UserEntity userEntity);
+    void save(UserDomain domain);
     // 이메일로 사용자가 존재하는지 확인하는 메서드
     Optional<UserEntity> findByEmail(String email);
 

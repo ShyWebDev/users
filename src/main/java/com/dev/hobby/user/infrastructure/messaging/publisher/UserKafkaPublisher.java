@@ -1,5 +1,6 @@
 package com.dev.hobby.user.infrastructure.messaging.publisher;
 
+import com.dev.hobby.user.infrastructure.messaging.publisher.event.UserCreatedEvent;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,11 +24,8 @@ public class UserKafkaPublisher {
      */
     public void publishUserCreatedEvent(UserCreatedEvent event) {
         try {
-            // 이벤트 객체를 JSON 문자열로 직렬화
             String message = objectMapper.writeValueAsString(event);
-            // Kafka 토픽으로 메시지 발행 (key로 uniqueId 사용)
             kafkaTemplate.send(TOPIC, event.getUniqueId(), message);
-            log.info("Published user created event with id: {}", event.getUniqueId());
         } catch (Exception e) {
             log.error("Error publishing user event: {}", e.getMessage(), e);
         }

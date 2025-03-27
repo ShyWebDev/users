@@ -3,7 +3,7 @@ package com.dev.hobby.user.application.command.service;
 import com.dev.hobby.user.api.dto.CreateUserCmd;
 import com.dev.hobby.user.api.dto.CreateUserResult;
 import com.dev.hobby.user.application.mapper.UserDomainMapper;
-import com.dev.hobby.user.application.mapper.UserRepositoryMapper;
+import com.dev.hobby.user.application.mapper.UserEventMapper;
 import com.dev.hobby.user.common.CustomException;
 import com.dev.hobby.user.domain.event.OutBoxStatus;
 import com.dev.hobby.user.domain.model.OutBoxEventDomain;
@@ -11,6 +11,7 @@ import com.dev.hobby.user.domain.model.UserDomain;
 import com.dev.hobby.user.domain.repository.OutboxEventCmdRepository;
 import com.dev.hobby.user.domain.repository.UserCmdRepository;
 import com.dev.hobby.user.domain.service.UserDuplicationChecker;
+import com.dev.hobby.user.infrastructure.messaging.publisher.UserKafkaPublisher;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,7 @@ public class UserDomainService {
     private final UserDuplicationChecker UserDuplicationChecker;
     private final OutboxEventCmdRepository outboxEventCmdRepository; // 아웃박스 이벤트 데이터를 저장하는 리포지토리
 
+    private final UserKafkaPublisher userKafkaPublisher;  // 사용자 이벤트를 발행하는 퍼블리셔
     private final ObjectMapper objectMapper;  // 객체를 JSON으로 직렬화/역직렬화하기 위한 객체 맵퍼
 
 
@@ -84,11 +86,13 @@ public class UserDomainService {
             String encodedPassword = createUserCmd.getPassword();//passwordEncoder.encode(request.getPassword());
 
             userDomain.setPassword(encodedPassword);
-            userCmdRepository.save(UserRepositoryMapper.toUserEntity(userDomain));
+            userCmdRepository.save(userDomain);
 
             outBoxEventDomain.setStatus(OutBoxStatus.SUCCESS.toString());
             // 아웃박스 이벤트를 DB에 저장
             outboxEventCmdRepository.save(outBoxEventDomain);
+
+            userKafkaPublisher.publishUserCreatedEvent(UserEventMapper.toUserCreatedEvent(userDomain));
         });
         return UserDomainMapper.toCreateUserResult(uniqueId, createUserCmd);
     }

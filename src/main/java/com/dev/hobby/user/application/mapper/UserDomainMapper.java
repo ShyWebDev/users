@@ -9,7 +9,9 @@ package com.dev.hobby.user.application.mapper;
 
 import com.dev.hobby.user.api.dto.CreateUserCmd;
 import com.dev.hobby.user.api.dto.CreateUserResult;
+import com.dev.hobby.user.api.dto.UserQueryResponse;
 import com.dev.hobby.user.domain.model.UserDomain;
+import com.dev.hobby.user.infrastructure.persistence.mongo.entity.UserDocument;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
@@ -29,6 +31,16 @@ public class UserDomainMapper {
         return CreateUserResult.builder()
                 .uniqueId(uniqueId)
                 .callBackUrl(createUserCmd.getCallBackUrl())
+                .build();
+    }
+
+    public static UserQueryResponse toResponse(UserDocument document) {
+        return UserQueryResponse.builder()
+                .uniqueId(document.getUniqueId())
+                .email(document.getEmail())
+                .name(document.getEmail())
+                .createdAt(document.getCreatedAt())
+                .updatedAt(document.getUpdatedAt())
                 .build();
     }
 
