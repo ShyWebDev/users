@@ -1,7 +1,7 @@
 package com.dev.hobby.user.infrastructure.messaging.outbox;
 
-import com.dev.hobby.user.domain.model.OutBoxEventDomain;
-import com.dev.hobby.user.domain.repository.OutboxEventCmdRepository;
+import com.dev.hobby.user.are.domain.model.OutBoxEventDomain;
+import com.dev.hobby.user.are.domain.repository.OutboxEventCmdRepository;
 import com.dev.hobby.user.infrastructure.messaging.outbox.jpa.JpaOutboxEventRepository;
 import com.dev.hobby.user.infrastructure.messaging.outbox.mapper.OutboxEventMapper;
 import lombok.RequiredArgsConstructor;

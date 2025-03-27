@@ -1,16 +1,8 @@
 package com.dev.hobby.user.infrastructure.messaging.consumer;
 
-import com.dev.hobby.user.domain.event.OutBoxStatus;
-import com.dev.hobby.user.domain.repository.OutboxEventCmdRepository;
-import com.dev.hobby.user.infrastructure.messaging.outbox.OutboxEventEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ObjectUtils;
-
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor
