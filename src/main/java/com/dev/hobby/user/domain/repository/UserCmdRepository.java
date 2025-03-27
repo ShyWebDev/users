@@ -2,7 +2,7 @@ package com.dev.hobby.user.domain.repository;
 
 
 import com.dev.hobby.user.domain.model.UserDomain;
-import com.dev.hobby.user.infrastructure.persistence.mysql.entity.UserEntity;
+import com.dev.hobby.user.external.persistence.mysql.entity.UserEntity;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,7 +1,7 @@
 package com.dev.hobby.user.domain.repository;
 
 import com.dev.hobby.user.domain.model.OutBoxEventDomain;
-import com.dev.hobby.user.infrastructure.messaging.outbox.OutboxEventEntity;
+import com.dev.hobby.user.external.messaging.outbox.OutboxEventEntity;
 
 import java.util.List;
 import java.util.Optional;

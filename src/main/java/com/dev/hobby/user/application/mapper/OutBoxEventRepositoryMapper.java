@@ -8,7 +8,7 @@ package com.dev.hobby.user.application.mapper;
  */
 
 import com.dev.hobby.user.domain.model.OutBoxEventDomain;
-import com.dev.hobby.user.infrastructure.messaging.outbox.OutboxEventEntity;
+import com.dev.hobby.user.external.messaging.outbox.OutboxEventEntity;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass

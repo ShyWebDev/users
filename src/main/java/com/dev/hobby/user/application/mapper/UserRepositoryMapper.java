@@ -8,7 +8,7 @@ package com.dev.hobby.user.application.mapper;
  */
 
 import com.dev.hobby.user.domain.model.UserDomain;
-import com.dev.hobby.user.infrastructure.persistence.mysql.entity.UserEntity;
+import com.dev.hobby.user.external.persistence.mysql.entity.UserEntity;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass

@@ -1,7 +1,7 @@
 package com.dev.hobby.user.domain.repository;
 
 
-import com.dev.hobby.user.infrastructure.persistence.mongo.entity.UserDocument;
+import com.dev.hobby.user.external.persistence.mongo.entity.UserDocument;
 
 import java.util.Optional;
 

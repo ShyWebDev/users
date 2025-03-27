@@ -1,8 +1,8 @@
 package com.dev.hobby.user.application.mapper;
 
 import com.dev.hobby.user.domain.model.OutBoxEventDomain;
-import com.dev.hobby.user.infrastructure.messaging.outbox.OutboxEventEntity;
-import com.dev.hobby.user.infrastructure.persistence.mongo.entity.OutboxEventDocument;
+import com.dev.hobby.user.external.messaging.outbox.OutboxEventEntity;
+import com.dev.hobby.user.external.persistence.mongo.entity.OutboxEventDocument;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass

@@ -1,14 +1,13 @@
 package com.dev.hobby.user.application.query.service;
 
 import com.dev.hobby.user.api.dto.UserQueryResponse;
-import com.dev.hobby.user.application.mapper.UserDomainMapper;
 import com.dev.hobby.user.application.mapper.UserQueryMapper;
 import com.dev.hobby.user.common.CustomException;
 import com.dev.hobby.user.domain.event.OutBoxStatus;
 import com.dev.hobby.user.domain.repository.OutboxEventQueryRepository;
 import com.dev.hobby.user.domain.repository.UserQueryRepository;
-import com.dev.hobby.user.infrastructure.persistence.mongo.entity.OutboxEventDocument;
-import com.dev.hobby.user.infrastructure.persistence.mongo.entity.UserDocument;
+import com.dev.hobby.user.external.persistence.mongo.entity.OutboxEventDocument;
+import com.dev.hobby.user.external.persistence.mongo.entity.UserDocument;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

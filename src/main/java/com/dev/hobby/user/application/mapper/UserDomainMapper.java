@@ -11,7 +11,7 @@ import com.dev.hobby.user.api.dto.CreateUserCmd;
 import com.dev.hobby.user.api.dto.CreateUserResult;
 import com.dev.hobby.user.api.dto.UserQueryResponse;
 import com.dev.hobby.user.domain.model.UserDomain;
-import com.dev.hobby.user.infrastructure.persistence.mongo.entity.UserDocument;
+import com.dev.hobby.user.external.persistence.mongo.entity.UserDocument;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass

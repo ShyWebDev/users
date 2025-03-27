@@ -6,8 +6,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @Configuration
 @EnableJpaRepositories(
     basePackages = {
-        "com.dev.hobby.user.infrastructure.persistence.mysql",
-        "com.dev.hobby.user.infrastructure.messaging.outbox"
+            "com.dev.hobby.user.external.persistence.mysql",
+            "com.dev.hobby.user.external.messaging.outbox"
 })
 public class MySqlConfig {
 }

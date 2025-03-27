@@ -11,7 +11,7 @@ import com.dev.hobby.user.domain.model.UserDomain;
 import com.dev.hobby.user.domain.repository.OutboxEventCmdRepository;
 import com.dev.hobby.user.domain.repository.UserCmdRepository;
 import com.dev.hobby.user.domain.service.UserDuplicationChecker;
-import com.dev.hobby.user.infrastructure.messaging.publisher.UserKafkaPublisher;
+import com.dev.hobby.user.external.messaging.publisher.UserKafkaPublisher;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

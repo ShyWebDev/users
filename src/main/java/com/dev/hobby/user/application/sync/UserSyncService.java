@@ -1,15 +1,11 @@
 package com.dev.hobby.user.application.sync;
 
-import com.dev.hobby.user.application.mapper.OutboxEventQueryMapper;
 import com.dev.hobby.user.application.mapper.UserEventMapper;
 import com.dev.hobby.user.application.mapper.UserQueryMapper;
 import com.dev.hobby.user.domain.repository.UserCmdRepository;
 import com.dev.hobby.user.domain.repository.UserQueryRepository;
-import com.dev.hobby.user.infrastructure.messaging.outbox.OutboxEventEntity;
-import com.dev.hobby.user.infrastructure.messaging.outbox.mapper.OutboxEventMapper;
-import com.dev.hobby.user.infrastructure.persistence.mongo.entity.OutboxEventDocument;
-import com.dev.hobby.user.infrastructure.persistence.mongo.entity.UserDocument;
-import com.dev.hobby.user.infrastructure.persistence.mysql.entity.UserEntity;
+import com.dev.hobby.user.external.persistence.mongo.entity.UserDocument;
+import com.dev.hobby.user.external.persistence.mysql.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
