@@ -21,6 +21,16 @@ public class UserQueryMapper {
                 .build();
     }
 
+    public static UserQueryResponse toResponse(UserDocument document) {
+        return UserQueryResponse.builder()
+                .uniqueId(document.getUniqueId())
+                .email(document.getEmail())
+                .name(document.getEmail())
+                .createdAt(document.getCreatedAt())
+                .updatedAt(document.getUpdatedAt())
+                .build();
+    }
+
     public static UserDomain toDomain(UserEntity domain) {
         return UserDomain.builder()
                 .uniqueId(domain.getUniqueId())
