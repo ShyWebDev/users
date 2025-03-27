@@ -1,6 +1,6 @@
 package com.dev.hobby.user.infrastructure.messaging.outbox.mapper;
 
-import com.dev.hobby.user.are.domain.model.OutBoxEventDomain;
+import com.dev.hobby.user.domain.model.OutBoxEventDomain;
 import com.dev.hobby.user.infrastructure.messaging.outbox.OutboxEventEntity;
 import lombok.experimental.UtilityClass;
 
