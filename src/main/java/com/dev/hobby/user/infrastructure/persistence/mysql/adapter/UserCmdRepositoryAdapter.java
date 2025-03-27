@@ -1,8 +1,9 @@
 package com.dev.hobby.user.infrastructure.persistence.mysql.adapter;
 
-import com.dev.hobby.user.application.mapper.UserMapper;
+import com.dev.hobby.user.application.mapper.UserRepositoryMapper;
 import com.dev.hobby.user.domain.model.UserDomain;
 import com.dev.hobby.user.domain.repository.UserCmdRepository;
+import com.dev.hobby.user.domain.service.UserDuplicationChecker;
 import com.dev.hobby.user.infrastructure.persistence.mysql.entity.UserEntity;
 import com.dev.hobby.user.infrastructure.persistence.mysql.jpa.JpaUserRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ public class UserCmdRepositoryAdapter  implements UserCmdRepository {
 
     @Override
     public UserDomain save(UserDomain userDomain) {
-        UserEntity saved = jpaUserRepository.save(UserMapper.byUserDomain(userDomain));
+        UserEntity saved = jpaUserRepository.save(UserRepositoryMapper.toUserEntity(userDomain));
 
         return UserDomain.builder()
                 .uniqueId(saved.getUniqueId())

@@ -2,24 +2,19 @@ package com.dev.hobby.user.application.command.service;
 
 import com.dev.hobby.user.api.dto.CreateUserCmd;
 import com.dev.hobby.user.api.dto.CreateUserResult;
-import com.dev.hobby.user.application.mapper.UserMapper;
+import com.dev.hobby.user.application.mapper.UserDomainMapper;
+import com.dev.hobby.user.common.CustomException;
 import com.dev.hobby.user.domain.event.OutBoxStatus;
 import com.dev.hobby.user.domain.model.OutBoxEventDomain;
 import com.dev.hobby.user.domain.model.UserDomain;
 import com.dev.hobby.user.domain.repository.OutboxEventCmdRepository;
 import com.dev.hobby.user.domain.repository.UserCmdRepository;
 import com.dev.hobby.user.domain.service.UserDuplicationChecker;
-import com.dev.hobby.user.infrastructure.messaging.outbox.OutboxEventEntity;
-import com.dev.hobby.user.infrastructure.messaging.outbox.mapper.OutboxEventMapper;
-import com.dev.hobby.user.common.CustomException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ObjectUtils;
 
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
@@ -76,9 +71,14 @@ public class UserDomainService {
     }
 
     public CreateUserResult completableFutureProcessCreateUserAndSave(CreateUserCmd createUserCmd, String uniqueId, OutBoxEventDomain outBoxEventDomain){
-        UserDomain userDomain = UserMapper.byCreateUserCmd(uniqueId, createUserCmd);
+        UserDomain userDomain = UserDomainMapper.toUserDomain(uniqueId, createUserCmd);
 
         CompletableFuture.runAsync(() -> {
+            try{
+                Thread.sleep(10000);
+            }catch (Exception e){
+
+            }
             // 비밀번호 암호화 등 복잡하고 오래걸리는 작업들 실행
             String encodedPassword = createUserCmd.getPassword();//passwordEncoder.encode(request.getPassword());
 
@@ -89,6 +89,6 @@ public class UserDomainService {
             // 아웃박스 이벤트를 DB에 저장
             outboxEventCmdRepository.save(outBoxEventDomain);
         });
-        return UserMapper.byCreateUserCmd2(uniqueId, createUserCmd);
+        return UserDomainMapper.toCreateUserResult(uniqueId, createUserCmd);
     }
 }

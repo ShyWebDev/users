@@ -2,8 +2,6 @@ package com.dev.hobby.user.application.command.handler;
 
 import com.dev.hobby.user.api.dto.CreateUserCmd;
 import com.dev.hobby.user.api.dto.CreateUserResult;
-import com.dev.hobby.user.api.dto.UserCmdResponse;
-import com.dev.hobby.user.api.dto.UserCmdRequest;
 import com.dev.hobby.user.application.command.service.UserDomainService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -17,7 +15,6 @@ import org.springframework.stereotype.Component;
 public class CreateUserHandler {
 
     private final UserDomainService userDomainService;  // 도메인 서비스
-
 
     public CreateUserResult handle(CreateUserCmd createUserCmd) {
         return userDomainService.createUser(createUserCmd);
