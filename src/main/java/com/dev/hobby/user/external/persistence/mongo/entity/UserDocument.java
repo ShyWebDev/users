@@ -26,6 +26,9 @@ public class UserDocument {
     @Setter
     private String name;
 
+    @Setter
+    private String rank;
+
     private LocalDateTime createdAt;
 
     @Setter

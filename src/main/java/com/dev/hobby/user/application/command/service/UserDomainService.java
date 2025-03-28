@@ -2,8 +2,8 @@ package com.dev.hobby.user.application.command.service;
 
 import com.dev.hobby.user.api.dto.CreateUserCmd;
 import com.dev.hobby.user.api.dto.CreateUserResult;
-import com.dev.hobby.user.application.mapper.UserDomainMapper;
-import com.dev.hobby.user.application.mapper.UserEventMapper;
+import com.dev.hobby.user.mapper.command.UserDomainMapper;
+import com.dev.hobby.user.mapper.infra.UserDomainEventMapper;
 import com.dev.hobby.user.common.CustomException;
 import com.dev.hobby.user.domain.event.OutBoxStatus;
 import com.dev.hobby.user.domain.model.OutBoxEventDomain;
@@ -92,7 +92,7 @@ public class UserDomainService {
             // 아웃박스 이벤트를 DB에 저장
             outboxEventCmdRepository.save(outBoxEventDomain);
 
-            userKafkaPublisher.publishUserCreatedEvent(UserEventMapper.toUserCreatedEvent(userDomain));
+            userKafkaPublisher.publishUserCreatedEvent(UserDomainEventMapper.toUserCreatedEvent(userDomain));
         });
         return UserDomainMapper.toCreateUserResult(uniqueId, createUserCmd);
     }

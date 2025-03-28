@@ -1,11 +1,11 @@
 package com.dev.hobby.user.application.sync;
 
 
-import com.dev.hobby.user.application.mapper.OutboxEventQueryMapper;
+import com.dev.hobby.user.mapper.query.OutboxEventQueryMapper;
 import com.dev.hobby.user.domain.repository.OutboxEventCmdRepository;
 import com.dev.hobby.user.domain.repository.OutboxEventQueryRepository;
 import com.dev.hobby.user.external.messaging.outbox.OutboxEventEntity;
-import com.dev.hobby.user.external.messaging.outbox.mapper.OutboxEventMapper;
+import com.dev.hobby.user.mapper.infra.OutboxEventMapper;
 import com.dev.hobby.user.external.persistence.mongo.entity.OutboxEventDocument;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

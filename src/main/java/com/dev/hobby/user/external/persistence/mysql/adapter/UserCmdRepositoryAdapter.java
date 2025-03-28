@@ -1,6 +1,6 @@
 package com.dev.hobby.user.external.persistence.mysql.adapter;
 
-import com.dev.hobby.user.application.mapper.UserRepositoryMapper;
+import com.dev.hobby.user.mapper.infra.UserInfraMapper;
 import com.dev.hobby.user.domain.model.UserDomain;
 import com.dev.hobby.user.domain.repository.UserCmdRepository;
 import com.dev.hobby.user.external.persistence.mysql.entity.UserEntity;
@@ -18,7 +18,7 @@ public class UserCmdRepositoryAdapter  implements UserCmdRepository {
 
     @Override
     public void save(UserDomain domain) {
-        jpaUserRepository.save(UserRepositoryMapper.toUserEntity(domain));
+        jpaUserRepository.save(UserInfraMapper.toUserEntity(domain));
     }
 
     @Override

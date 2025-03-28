@@ -1,9 +1,14 @@
-package com.dev.hobby.user.external.messaging.outbox.mapper;
+package com.dev.hobby.user.mapper.infra;
 
 import com.dev.hobby.user.domain.model.OutBoxEventDomain;
 import com.dev.hobby.user.external.messaging.outbox.OutboxEventEntity;
 import lombok.experimental.UtilityClass;
 
+/**
+ * Outbox Domain ↔ Entity 양방향 변환
+ * Event-Driven Architecture: Outbox 패턴 구현을 위한 핵심 매퍼
+ * Clean Architecture + DDD: 외부 시스템 이벤트 발행을 위한 기술 분리
+ */
 @UtilityClass
 public class OutboxEventMapper {
     public static OutboxEventEntity toEntity(OutBoxEventDomain domain) {

@@ -1,7 +1,7 @@
 package com.dev.hobby.user.application.sync;
 
-import com.dev.hobby.user.application.mapper.UserEventMapper;
-import com.dev.hobby.user.application.mapper.UserQueryMapper;
+import com.dev.hobby.user.mapper.infra.UserDomainEventMapper;
+import com.dev.hobby.user.mapper.query.UserQueryMapper;
 import com.dev.hobby.user.domain.repository.UserCmdRepository;
 import com.dev.hobby.user.domain.repository.UserQueryRepository;
 import com.dev.hobby.user.external.persistence.mongo.entity.UserDocument;
@@ -53,6 +53,6 @@ public class UserSyncService {
         }
 
         entity.setSyncedAt(LocalDateTime.now());
-        userCmdRepository.save(UserEventMapper.toDomain(entity));
+        userCmdRepository.save(UserDomainEventMapper.toDomain(entity));
     }
 }

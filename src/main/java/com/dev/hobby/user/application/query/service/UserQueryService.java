@@ -1,7 +1,7 @@
 package com.dev.hobby.user.application.query.service;
 
 import com.dev.hobby.user.api.dto.UserQueryResponse;
-import com.dev.hobby.user.application.mapper.UserQueryMapper;
+import com.dev.hobby.user.mapper.query.UserQueryMapper;
 import com.dev.hobby.user.common.CustomException;
 import com.dev.hobby.user.domain.event.OutBoxStatus;
 import com.dev.hobby.user.domain.repository.OutboxEventQueryRepository;

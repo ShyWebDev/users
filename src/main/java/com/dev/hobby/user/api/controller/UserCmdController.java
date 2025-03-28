@@ -3,7 +3,7 @@ package com.dev.hobby.user.api.controller;
 import com.dev.hobby.user.api.dto.UserCmdRequest;
 import com.dev.hobby.user.api.dto.UserCmdResponse;
 import com.dev.hobby.user.application.command.handler.CreateUserHandler;
-import com.dev.hobby.user.application.mapper.UserCmdMapper;
+import com.dev.hobby.user.mapper.command.UserCmdMapper;
 import com.dev.hobby.user.common.CommonResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

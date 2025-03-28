@@ -3,6 +3,7 @@ package com.dev.hobby.user.api.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
@@ -13,21 +14,18 @@ import java.time.LocalDateTime;
  */
 @Getter
 @Builder
-public class UserQueryResponse {
-
-    @Schema(description = "사용자 고유ID", example = "1")
+public class OutboxEventResponse {
     private String uniqueId;
+    private String eventType;
+    private Long eventOrderNo;
+    private String payload;
 
-    @Schema(description = "사용자 이메일", example = "alice@example.com")
-    private String email;
+    private String status;
 
-    @Schema(description = "사용자 이름", example = "Alice")
-    private String name;
-
-    @Schema(description = "사용자 등급", example = "GOLD")
-    private String rank;
+    private Integer retryCount;
 
     private LocalDateTime createdAt;
-
     private LocalDateTime updatedAt;
+
+    private LocalDateTime syncedAt;
 }

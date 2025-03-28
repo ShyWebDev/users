@@ -1,6 +1,6 @@
 package com.dev.hobby.user.external.messaging.outbox;
 
-import com.dev.hobby.user.application.mapper.OutBoxEventRepositoryMapper;
+import com.dev.hobby.user.mapper.infra.OutBoxEventInfraMapper;
 import com.dev.hobby.user.domain.model.OutBoxEventDomain;
 import com.dev.hobby.user.domain.repository.OutboxEventCmdRepository;
 import com.dev.hobby.user.external.messaging.outbox.jpa.JpaOutboxEventRepository;
@@ -18,7 +18,7 @@ public class OutboxEventCmdRepositoryAdapter implements OutboxEventCmdRepository
 
     @Override
     public void save(OutBoxEventDomain domain) {
-        jpaOutboxEventRepository.save(OutBoxEventRepositoryMapper.toEntity(domain));
+        jpaOutboxEventRepository.save(OutBoxEventInfraMapper.toEntity(domain));
     }
 
     @Override

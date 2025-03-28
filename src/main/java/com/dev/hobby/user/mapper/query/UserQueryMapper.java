@@ -1,4 +1,4 @@
-package com.dev.hobby.user.application.mapper;
+package com.dev.hobby.user.mapper.query;
 
 import com.dev.hobby.user.api.dto.UserQueryResponse;
 import com.dev.hobby.user.domain.model.UserDomain;
@@ -6,9 +6,24 @@ import com.dev.hobby.user.external.persistence.mongo.entity.UserDocument;
 import com.dev.hobby.user.external.persistence.mysql.entity.UserEntity;
 import lombok.experimental.UtilityClass;
 
+/**
+ * Document → DTO 변환 전담
+ * CQRS: Query 전용 응답 Mapper
+ * Clean Architecture: Infra 계층 Document → API 계층 DTO
+ */
 @UtilityClass
 public class UserQueryMapper {
 
+    public UserQueryResponse toResponse(UserDocument document) {
+        return UserQueryResponse.builder()
+                .uniqueId(document.getUniqueId())
+                .email(document.getEmail())
+                .name(document.getName())
+                .rank(document.getRank())
+                .build();
+    }
+
+    /*
     public static UserDocument toDocument(UserEntity entity) {
         return UserDocument.builder()
                 .uniqueId(entity.getUniqueId())
@@ -40,6 +55,6 @@ public class UserQueryMapper {
                 .updatedAt(domain.getUpdatedAt())
                 .build();
     }
-
+    */
 
 }
