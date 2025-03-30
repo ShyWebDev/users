@@ -54,8 +54,8 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.testcontainers:mariadb'
 
-    implementation 'com.dev.hobby.ulid:ulid-module:1.0.1'
-    implementation 'com.dev.hobby.outbox:outbox-module:1.0.0'
+    implementation 'com.dev.hobby.ulid:ulid-module:1.0.2'
+    implementation 'com.dev.hobby.outbox:outbox-module:1.0.2'
 }
 
 tasks.named('test') {
