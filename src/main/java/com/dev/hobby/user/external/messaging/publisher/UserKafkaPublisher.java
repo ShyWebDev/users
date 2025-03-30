@@ -1,6 +1,6 @@
 package com.dev.hobby.user.external.messaging.publisher;
 
-import com.dev.hobby.user.external.messaging.publisher.event.UserCreatedEvent;
+import com.dev.hobby.user.external.messaging.event.UserCreatedEvent;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-@Profile("dev")
+//@Profile("dev")
 public class UserKafkaPublisher {
 
     private final KafkaTemplate<String, String> kafkaTemplate;

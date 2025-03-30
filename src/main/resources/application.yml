@@ -29,18 +29,39 @@ springdoc:
 
 # Spring Boot 설정
 spring:
-
-  # MongoDB 설정 (R: Query Side)
-  data:
-    mongodb:
-      uri: "mongodb://root:root1234@localhost:27017/users?authSource=admin"  # MongoDB 연결 URI 설정
-
   # MySQL 설정 (CMS: Command Side)
   datasource:
     url: "jdbc:p6spy:mysql://localhost:3306/users"  # MySQL 연결 URL 설정
     username: "root"  # MySQL 사용자명
     password: "root1234"  # MySQL 비밀번호
     driver-class-name: "com.p6spy.engine.spy.P6SpyDriver"  # P6Spy JDBC 드라이버를 사용하여 SQL 쿼리 로그를 캡처
+    hikari:
+      maximum-pool-size: 10
+
+  # MongoDB 설정 (R: Query Side)
+  data:
+    mongodb:
+      uri: "mongodb://root:root1234@localhost:27017/users?authSource=admin"  # MongoDB 연결 URI 설정
+
+  # Redis 설정 (락관리)
+  redis:
+    host: localhost
+    port: 6379
+    password: root1234
+
+
+  kafka:
+    bootstrap-servers: localhost:9092  # Kafka 브로커 주소
+    consumer:
+      group-id: user-service-group     # Kafka Consumer 그룹 ID
+      auto-offset-reset: earliest      # 초기 오프셋 설정 (earliest: 처음부터)
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    listener:
+      ack-mode: manual  # Kafka Listener 수동 커밋 (manual or record 권장)
 
   # JPA 설정
   jpa:
@@ -50,7 +71,8 @@ spring:
     hibernate:
       format_sql: true  # SQL 포매팅 활성화
       use_sql_comments: true  # SQL 주석 사용
-      ddl-auto: update  # Hibernate가 데이터베이스 스키마를 자동으로 업데이트
+#      ddl-auto: create-drop  # Hibernate가 데이터베이스 스키마를 자동으로 업데이트
+      ddl-auto: create  # Hibernate가 데이터베이스 스키마를 자동으로 업데이트
     properties:
       hibernate:
         format_sql: true  # SQL 포매팅 설정

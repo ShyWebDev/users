@@ -1,7 +1,7 @@
 package com.dev.hobby.user.domain.repository;
 
 
-import com.dev.hobby.user.external.persistence.mongo.entity.UserDocument;
+import com.dev.hobby.user.domain.model.UserDomain;
 
 import java.util.Optional;
 
@@ -11,6 +11,6 @@ import java.util.Optional;
  */
 public interface UserQueryRepository{
 
-    UserDocument save(UserDocument userDocument);
-    Optional<UserDocument> findByUniqueId(String uniqueId);
+    void save(UserDomain userDomain);
+    Optional<UserDomain> findByUniqueId(String uniqueId);
 }

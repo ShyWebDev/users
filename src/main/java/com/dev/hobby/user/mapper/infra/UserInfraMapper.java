@@ -12,12 +12,12 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class UserInfraMapper {
     // Domain → Entity 변환
-    public static UserEntity toUserEntity(UserDomain userDomain) {
+    public static UserEntity toUserEntity(UserDomain domain) {
         return UserEntity.builder()
-                .uniqueId(userDomain.getUniqueId())
-                .email(userDomain.getEmail())
-                .password(userDomain.getPassword())
-                .name(userDomain.getName())
+                .uniqueId(domain.getUniqueId())
+                .email(domain.getEmail())
+                .password(domain.getPassword())
+                .name(domain.getName())
                 .build();
     }
 

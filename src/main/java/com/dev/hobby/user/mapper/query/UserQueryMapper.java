@@ -1,9 +1,7 @@
 package com.dev.hobby.user.mapper.query;
 
 import com.dev.hobby.user.api.dto.UserQueryResponse;
-import com.dev.hobby.user.domain.model.UserDomain;
 import com.dev.hobby.user.external.persistence.mongo.entity.UserDocument;
-import com.dev.hobby.user.external.persistence.mysql.entity.UserEntity;
 import lombok.experimental.UtilityClass;
 
 /**

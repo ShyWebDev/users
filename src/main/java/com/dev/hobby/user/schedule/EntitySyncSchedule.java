@@ -1,6 +1,5 @@
 package com.dev.hobby.user.schedule;
 
-import com.dev.hobby.user.application.sync.OutboxEventSyncService;
 import com.dev.hobby.user.application.sync.UserSyncService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,12 +13,10 @@ import org.springframework.stereotype.Component;
 @Profile({"local","default"})
 public class EntitySyncSchedule {
 
-    private final OutboxEventSyncService outboxSyncService;
     private final UserSyncService userSyncService;
 
     @Scheduled(fixedDelay = 10000)
     public void syncDomains() {
-        outboxSyncService.syncOutboxEvent();
         userSyncService.syncUsers();
     }
 }

@@ -1,6 +1,5 @@
 package com.dev.hobby.user.external.messaging.consumer;
 
-import com.dev.hobby.user.application.sync.OutboxEventSyncService;
 import com.dev.hobby.user.application.sync.UserSyncService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Component;
 @Profile("dev")
 public class EntitySyncKafkaConsumer {
 
-    private final OutboxEventSyncService outboxSyncService;
     private final UserSyncService userSyncService;
 
 
@@ -24,11 +22,7 @@ public class EntitySyncKafkaConsumer {
      */
     @KafkaListener(topics = "domain-sync-topic")
     public void handleSyncMessage(String message) {
-        if (message.startsWith("OUTBOX:")) {
-            String uniqueId = message.substring("OUTBOX:".length());
-            // Outbox 이벤트에 대한 동기화 처리
-            outboxSyncService.syncOutboxEvent();
-        } else if (message.startsWith("USER:")) {
+        if (message.startsWith("USER:")) {
             String userId = message.substring("USER:".length());
             // 사용자 데이터 동기화 처리
             userSyncService.syncUsers();

@@ -2,7 +2,6 @@ package com.dev.hobby.user.domain.repository;
 
 
 import com.dev.hobby.user.domain.model.UserDomain;
-import com.dev.hobby.user.external.persistence.mysql.entity.UserEntity;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,9 +13,9 @@ import java.util.Optional;
 public interface UserCmdRepository {
     void save(UserDomain domain);
     // 이메일로 사용자가 존재하는지 확인하는 메서드
-    Optional<UserEntity> findByEmail(String email);
+    Optional<UserDomain> findByEmail(String email);
 
-    Optional<UserEntity> findByUniqueId(String uniqueId);
+    Optional<UserDomain> findByUniqueId(String uniqueId);
 
-    List<UserEntity> findTop50BySyncedAtIsNullOrderByCreatedAt();
+    List<UserDomain> findTop50BySyncedAtIsNullOrderByCreatedAt();
 }

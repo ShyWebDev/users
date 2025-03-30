@@ -1,4 +1,4 @@
-package com.dev.hobby.user.external.messaging.publisher.event;
+package com.dev.hobby.user.external.messaging.event;
 
 import lombok.Builder;
 import lombok.Getter;

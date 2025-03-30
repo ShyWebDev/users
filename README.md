@@ -147,3 +147,29 @@ kafka-ui-0.7.2
 
 비즈니스흐름
 API -> 전송DTO -> DOMAIN -> 로직실행에 필요한 입력값 확인 후 UUID 리턴 -> 복잡한 비즈니스 로직 비동기수행
+
+/*
+[Kafka 발행 실패]
+↓
+[KafkaRetryQueueService.enqueue()]
+↓
+[Redis Queue: LPUSH 메시지 저장]
+↓
+[KafkaRetryWorker]
+- VirtualThread 실행
+- RPOP 메시지 → Kafka 발행 시도
+- 실패 시 LPUSH 다시 저장
+
+Kafka 메시지 전송	Avro / Protobuf	Schema 강제, 빠름, 경량
+Redis Queue 저장 / 재시도 큐	JSON (Jackson / Moshi) 또는 Kryo	사람이 읽을 수 있어야 함 or 속도 중시
+MongoDB 저장	JSON (Jackson)	BSON 변환 용이, Spring Data와 잘 맞음
+API 응답 (REST)	Jackson (기본)	Spring MVC 기본 전략, 유연성
+내부 캐시, 대량 저장 처리	Kryo / FST	속도 최우선, 직렬화 크기 최소화
+
+여러 API/DB 병렬 호출 (정상 흐름 + 오류 관리까지 포함)	✅ Structured Concurrency
+단일 비동기 처리 or 반환값 필요 없고 간단한 비동기 트리거	✅ VirtualThread or CompletableFuture.runAsync()
+Spring MVC + @Async 환경에서 Virtual Thread 쓰고 싶을 때	✅ VirtualThreadTaskExecutor
+기존 체이닝 코드가 많고, Java 17 이하 호환 필요	✅ CompletableFuture 유지 (단기)
+
+재시도 큐를 Redis로 구성
+*/

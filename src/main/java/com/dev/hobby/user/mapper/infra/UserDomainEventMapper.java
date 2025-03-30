@@ -1,8 +1,8 @@
 package com.dev.hobby.user.mapper.infra;
 
 import com.dev.hobby.user.domain.model.UserDomain;
-import com.dev.hobby.user.external.messaging.publisher.event.UserCreatedEvent;
-import com.dev.hobby.user.external.persistence.mysql.entity.UserEntity;
+import com.dev.hobby.user.external.messaging.event.UserCreatedEvent;
+import com.dev.hobby.user.external.persistence.mongo.entity.UserDocument;
 import lombok.experimental.UtilityClass;
 
 /**
@@ -24,17 +24,25 @@ public class UserDomainEventMapper {
                 .build();
     }
 
-    /*
-    public static UserDomain toDomain(UserEntity entity) {
-        return UserDomain.builder()
-                .uniqueId(entity.getUniqueId())
-                .email(entity.getEmail())
-                .password(entity.getPassword())
-                .name(entity.getName())
+
+    public static UserDocument toDocument(UserDomain domain) {
+        return UserDocument.builder()
+                .uniqueId(domain.getUniqueId())
+                .email(domain.getEmail())
+                .password(domain.getPassword())
+                .name(domain.getName())
                 .build();
     }
 
-     */
+    public static UserDomain toDomain(UserDocument document) {
+        return UserDomain.builder()
+                .uniqueId(document.getUniqueId())
+                .email(document.getEmail())
+                .password(document.getPassword())
+                .name(document.getName())
+                .build();
+    }
+
 
 
 }

@@ -1,11 +1,9 @@
-package com.dev.hobby.user.mapper.command;
+package com.dev.hobby.user.mapper.domain;
 
 import com.dev.hobby.user.api.dto.CreateUserCmd;
 import com.dev.hobby.user.api.dto.CreateUserResult;
-import com.dev.hobby.user.api.dto.UserQueryResponse;
+import com.dev.hobby.user.api.dto.GetUserResult;
 import com.dev.hobby.user.domain.model.UserDomain;
-import com.dev.hobby.user.external.persistence.mongo.entity.UserDocument;
-import com.dev.hobby.user.external.persistence.mysql.entity.UserEntity;
 import lombok.experimental.UtilityClass;
 
 /**
@@ -16,19 +14,6 @@ import lombok.experimental.UtilityClass;
  */
 @UtilityClass
 public class UserDomainMapper {
-
-    public static UserEntity toEntity(UserDomain domain) {
-        return UserEntity.builder()
-                .email(domain.getEmail())
-                .name(domain.getName())
-                // .userDetail(UserDetailEntity.builder()
-                //     .address(domain.getUserDetail().getAddress())
-                //     .phone(domain.getUserDetail().getPhone())
-                //     .build())
-                .build();
-    }
-
-    /*
     // Domain → Entity 변환
     public static UserDomain toUserDomain(String uniqueId, CreateUserCmd createUserCmd) {
         return UserDomain.builder()
@@ -46,16 +31,11 @@ public class UserDomainMapper {
                 .build();
     }
 
-    public static UserQueryResponse toResponse(UserDocument document) {
-        return UserQueryResponse.builder()
-                .uniqueId(document.getUniqueId())
-                .email(document.getEmail())
-                .name(document.getEmail())
-                .createdAt(document.getCreatedAt())
-                .updatedAt(document.getUpdatedAt())
+    public static GetUserResult toGetUserResult(UserDomain domain) {
+        return GetUserResult.builder()
+                .uniqueId(domain.getUniqueId())
+                .email(domain.getEmail())
                 .build();
     }
-
-     */
 
 }

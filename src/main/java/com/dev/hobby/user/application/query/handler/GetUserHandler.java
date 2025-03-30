@@ -1,6 +1,7 @@
 package com.dev.hobby.user.application.query.handler;
 
-import com.dev.hobby.user.api.dto.UserQueryResponse;
+import com.dev.hobby.user.api.dto.GetUserCmd;
+import com.dev.hobby.user.api.dto.GetUserResult;
 import com.dev.hobby.user.application.query.service.UserQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -15,9 +16,7 @@ public class GetUserHandler {
 
     private final UserQueryService userQueryService;  // 도메인 서비스
 
-    public UserQueryResponse handleGetUserByUniqueId(String uniqueId) {
-        // 비즈니스 로직을 도메인 서비스에 위임하여 사용자 생성
-        return userQueryService.getUserByUniqueId(uniqueId);
-
+    public GetUserResult handle(GetUserCmd getUserCmd) {
+        return userQueryService.getUser(getUserCmd);
     }
 }

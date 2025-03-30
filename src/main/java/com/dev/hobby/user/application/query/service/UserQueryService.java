@@ -1,13 +1,11 @@
 package com.dev.hobby.user.application.query.service;
 
-import com.dev.hobby.user.api.dto.UserQueryResponse;
-import com.dev.hobby.user.mapper.query.UserQueryMapper;
+import com.dev.hobby.user.api.dto.GetUserCmd;
+import com.dev.hobby.user.api.dto.GetUserResult;
 import com.dev.hobby.user.common.CustomException;
-import com.dev.hobby.user.domain.event.OutBoxStatus;
-import com.dev.hobby.user.domain.repository.OutboxEventQueryRepository;
+import com.dev.hobby.user.domain.model.UserDomain;
 import com.dev.hobby.user.domain.repository.UserQueryRepository;
-import com.dev.hobby.user.external.persistence.mongo.entity.OutboxEventDocument;
-import com.dev.hobby.user.external.persistence.mongo.entity.UserDocument;
+import com.dev.hobby.user.mapper.domain.UserDomainMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,22 +18,12 @@ import java.util.Optional;
 public class UserQueryService {
 
     private final UserQueryRepository userQueryRepository;
-    private final OutboxEventQueryRepository outboxEventQueryRepository;
-    public UserQueryResponse getUserByUniqueId(String uniqueId){
+    public GetUserResult getUser(GetUserCmd getUserCmd){
 
-        Optional<UserDocument> userDocumentOpt = userQueryRepository.findByUniqueId(uniqueId);
-        if(userDocumentOpt.isPresent())
-            return UserQueryMapper.toResponse(userDocumentOpt.get());
-        else{
-            Optional<OutboxEventDocument> outboxEventDocumentOpt = outboxEventQueryRepository.findByUniqueId(uniqueId);
-            if(outboxEventDocumentOpt.isPresent()){
-                if(OutBoxStatus.FAILED.toString().equals(outboxEventDocumentOpt.get().getStatus()))
-                    throw new CustomException("사용자 정보 처리중 오류가 발생했습니다.");
+        Optional<UserDomain> queryDomainOpt = userQueryRepository.findByUniqueId(getUserCmd.getUniqueId());
+        if(queryDomainOpt.isPresent())
+            return UserDomainMapper.toGetUserResult(queryDomainOpt.get());
 
-                throw new CustomException("사용자 정보를 처리중입니다.");
-            }
-            else
-                throw new CustomException("사용자 정보가 없습니다.");
-        }
+        throw new CustomException("User not found with uniqueId: "+getUserCmd.getUniqueId());
     }
 }

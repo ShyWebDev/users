@@ -1,11 +1,8 @@
 package com.dev.hobby.user.application.sync;
 
-import com.dev.hobby.user.mapper.infra.UserDomainEventMapper;
-import com.dev.hobby.user.mapper.query.UserQueryMapper;
+import com.dev.hobby.user.domain.model.UserDomain;
 import com.dev.hobby.user.domain.repository.UserCmdRepository;
 import com.dev.hobby.user.domain.repository.UserQueryRepository;
-import com.dev.hobby.user.external.persistence.mongo.entity.UserDocument;
-import com.dev.hobby.user.external.persistence.mysql.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,34 +22,33 @@ public class UserSyncService {
 
     @Transactional
     public void syncUsers() {
-        List<UserEntity> userEntityList = userCmdRepository.findTop50BySyncedAtIsNullOrderByCreatedAt();
-        for (UserEntity userEntity : userEntityList) {
+        List<UserDomain> cmdDomainList = userCmdRepository.findTop50BySyncedAtIsNullOrderByCreatedAt();
+        for (UserDomain cmdDomain : cmdDomainList) {
             try {
-                processUsers(userEntity);
+                processUsers(cmdDomain);
             } catch (Exception e) {
-                log.error("Failed to sync user. userEntity={}", userEntity, e);
+                log.error("Failed to sync user. userDomain={}", cmdDomain, e);
             }
         }
     }
 
-    public void processUsers(UserEntity entity) {
+    public void processUsers(UserDomain cmdDomain) {
         // MongoDB 저장/갱신
-        Optional<UserDocument> existingDoc =
-                userQueryRepository.findByUniqueId(entity.getUniqueId());
+        Optional<UserDomain> existingQueryDomain =
+                userQueryRepository.findByUniqueId(cmdDomain.getUniqueId());
 
-        if (existingDoc.isPresent()) {
-            UserDocument doc = existingDoc.get();
-            doc.setEmail(entity.getEmail());
-            doc.setPassword(entity.getPassword());
-            doc.setName(entity.getName());
-            doc.setUpdatedAt(entity.getUpdatedAt());
-            userQueryRepository.save(doc);
+        if (existingQueryDomain.isPresent()) {
+            UserDomain queryDocument = existingQueryDomain.get();
+            queryDocument.setEmail(cmdDomain.getEmail());
+            queryDocument.setPassword(cmdDomain.getPassword());
+            queryDocument.setName(cmdDomain.getName());
+            queryDocument.setUpdatedAt(cmdDomain.getUpdatedAt());
+            userQueryRepository.save(queryDocument);
         } else {
-            UserDocument newDoc = UserQueryMapper.toDocument(entity);
-            userQueryRepository.save(newDoc);
+            userQueryRepository.save(cmdDomain);
         }
 
-        entity.setSyncedAt(LocalDateTime.now());
-        userCmdRepository.save(UserDomainEventMapper.toDomain(entity));
+        cmdDomain.setSyncedAt(LocalDateTime.now());
+        userCmdRepository.save(cmdDomain);
     }
 }
