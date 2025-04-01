@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface JpaUserRepository extends JpaRepository<UserEntity, String> {
     Optional<UserEntity> findByEmail(String email);
-    Optional<UserEntity> findByUniqueId(String uniqueId);
+    Optional<UserEntity> findByUserId(String userId);
 
     List<UserEntity> findTop50BySyncedAtIsNullOrderByCreatedAt();
 }

@@ -1,7 +1,7 @@
 package com.dev.hobby.user.external.persistence.mysql.adapter;
 
-import com.dev.hobby.user.domain.repository.UserCmdRepository;
-import com.dev.hobby.user.domain.service.UserDuplicationChecker;
+import com.dev.hobby.user.domain.outbound.UserCmdRepository;
+import com.dev.hobby.user.domain.outbound.UserDuplicationChecker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

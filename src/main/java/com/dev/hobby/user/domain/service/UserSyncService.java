@@ -1,8 +1,8 @@
-package com.dev.hobby.user.application.sync;
+package com.dev.hobby.user.domain.service;
 
-import com.dev.hobby.user.domain.model.UserDomain;
-import com.dev.hobby.user.domain.repository.UserCmdRepository;
-import com.dev.hobby.user.domain.repository.UserQueryRepository;
+import com.dev.hobby.user.domain.model.User;
+import com.dev.hobby.user.domain.outbound.UserCmdRepository;
+import com.dev.hobby.user.domain.outbound.UserQueryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,8 +22,8 @@ public class UserSyncService {
 
     @Transactional
     public void syncUsers() {
-        List<UserDomain> cmdDomainList = userCmdRepository.findTop50BySyncedAtIsNullOrderByCreatedAt();
-        for (UserDomain cmdDomain : cmdDomainList) {
+        List<User> cmdDomainList = userCmdRepository.findTop50BySyncedAtIsNullOrderByCreatedAt();
+        for (User cmdDomain : cmdDomainList) {
             try {
                 processUsers(cmdDomain);
             } catch (Exception e) {
@@ -32,13 +32,13 @@ public class UserSyncService {
         }
     }
 
-    public void processUsers(UserDomain cmdDomain) {
+    public void processUsers(User cmdDomain) {
         // MongoDB 저장/갱신
-        Optional<UserDomain> existingQueryDomain =
-                userQueryRepository.findByUniqueId(cmdDomain.getUniqueId());
+        Optional<User> existingQueryDomain =
+                userQueryRepository.findByUserId(cmdDomain.getUserId());
 
         if (existingQueryDomain.isPresent()) {
-            UserDomain queryDocument = existingQueryDomain.get();
+            User queryDocument = existingQueryDomain.get();
             queryDocument.setEmail(cmdDomain.getEmail());
             queryDocument.setPassword(cmdDomain.getPassword());
             queryDocument.setName(cmdDomain.getName());

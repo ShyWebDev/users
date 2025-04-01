@@ -1,6 +1,6 @@
 package com.dev.hobby.user.mapper.infra;
 
-import com.dev.hobby.user.domain.model.UserDomain;
+import com.dev.hobby.user.domain.model.User;
 import com.dev.hobby.user.external.messaging.event.UserCreatedEvent;
 import com.dev.hobby.user.external.persistence.mongo.entity.UserDocument;
 import lombok.experimental.UtilityClass;
@@ -13,33 +13,40 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class UserDomainEventMapper {
 
-    public static UserCreatedEvent toUserCreatedEvent(UserDomain domain) {
+    public static UserCreatedEvent toUserCreatedEvent(User domain) {
         return UserCreatedEvent.builder()
-                .uniqueId(domain.getUniqueId())
+                .uniqueId(domain.getUserId())
                 .email(domain.getEmail())
                 .password(domain.getPassword())
                 .name(domain.getName())
                 .createdAt(domain.getCreatedAt())
                 .updatedAt(domain.getUpdatedAt())
+                //.syncedAt(domain.getSyncedAt())
                 .build();
     }
 
 
-    public static UserDocument toDocument(UserDomain domain) {
+    public static UserDocument toDocument(User domain) {
         return UserDocument.builder()
-                .uniqueId(domain.getUniqueId())
+                .userId(domain.getUserId())
                 .email(domain.getEmail())
                 .password(domain.getPassword())
                 .name(domain.getName())
+                .createdAt(domain.getCreatedAt())
+                .updatedAt(domain.getUpdatedAt())
+                .syncedAt(domain.getSyncedAt())
                 .build();
     }
 
-    public static UserDomain toDomain(UserDocument document) {
-        return UserDomain.builder()
-                .uniqueId(document.getUniqueId())
+    public static User toDomain(UserDocument document) {
+        return User.builder()
+                .userId(document.getUserId())
                 .email(document.getEmail())
                 .password(document.getPassword())
                 .name(document.getName())
+                .createdAt(document.getCreatedAt())
+                .updatedAt(document.getUpdatedAt())
+                .syncedAt(document.getSyncedAt())
                 .build();
     }
 

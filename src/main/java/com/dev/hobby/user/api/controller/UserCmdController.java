@@ -1,7 +1,7 @@
 package com.dev.hobby.user.api.controller;
 
-import com.dev.hobby.user.api.dto.UserCmdRequest;
-import com.dev.hobby.user.api.dto.UserCmdResponse;
+import com.dev.hobby.user.api.request.UserCmdRequest;
+import com.dev.hobby.user.api.response.UserCmdResponse;
 import com.dev.hobby.user.application.command.handler.CreateUserHandler;
 import com.dev.hobby.user.common.CommonResponse;
 import com.dev.hobby.user.mapper.command.UserCmdMapper;

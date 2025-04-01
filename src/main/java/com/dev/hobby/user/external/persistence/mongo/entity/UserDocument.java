@@ -15,7 +15,7 @@ public class UserDocument {
     @Id
     private String _id;
 
-    private String uniqueId;
+    private String userId;
 
     @Setter
     private String email;

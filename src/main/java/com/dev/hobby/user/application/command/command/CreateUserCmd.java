@@ -1,4 +1,4 @@
-package com.dev.hobby.user.api.dto;
+package com.dev.hobby.user.application.command.command;
 
 import lombok.Builder;
 import lombok.Data;

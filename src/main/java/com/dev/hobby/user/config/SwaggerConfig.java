@@ -20,6 +20,8 @@ public class SwaggerConfig {
         return new OpenAPI()
                 .info(new Info().title("User API")
                 .description("사용자 관리 API")
-                .version("1.0.0"));
+                .version("1.0.0")
+
+                );
     }
 }

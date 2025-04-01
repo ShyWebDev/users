@@ -8,8 +8,8 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDomain {
-    private String uniqueId;
+public class User {
+    private String userId;
     private String email;
     private String password;
     private String name;

@@ -1,8 +1,8 @@
 package com.dev.hobby.user.mapper.command;
 
-import com.dev.hobby.user.api.dto.GetUserCmd;
-import com.dev.hobby.user.api.dto.GetUserResult;
-import com.dev.hobby.user.api.dto.UserQueryResponse;
+import com.dev.hobby.user.application.query.command.GetUserCmd;
+import com.dev.hobby.user.application.query.command.GetUserResult;
+import com.dev.hobby.user.api.response.UserQueryResponse;
 import lombok.experimental.UtilityClass;
 
 /**
@@ -16,15 +16,15 @@ public class UserQueryMapper {
 
 
 
-    public static GetUserCmd toGetUserCmd(String uniqueId) {
+    public static GetUserCmd toGetUserCmd(String userId) {
         return GetUserCmd.builder()
-                .uniqueId(uniqueId)
+                .userId(userId)
                 .build();
     }
 
     public static UserQueryResponse toUserQueryResponse(GetUserResult getUserResult) {
         return UserQueryResponse.builder()
-                .uniqueId(getUserResult.getUniqueId())
+                .userId(getUserResult.getUserId())
                 .email(getUserResult.getEmail())
                 .build();
     }

@@ -1,20 +1,22 @@
-package com.dev.hobby.user.application.command.service;
+package com.dev.hobby.user.domain.service;
 
-import com.dev.hobby.outbox.application.handler.OutboxHandler;
-import com.dev.hobby.outbox.domain.model.Outbox;
-import com.dev.hobby.user.api.dto.CreateUserCmd;
-import com.dev.hobby.user.api.dto.CreateUserResult;
+import com.dev.hobby.outbox.application.command.command.CreateOutboxCommand;
+import com.dev.hobby.outbox.application.command.command.UpdateOutboxCommand;
+import com.dev.hobby.outbox.application.command.handler.SaveOutboxHandler;
+import com.dev.hobby.user.application.command.command.CreateUserCmd;
+import com.dev.hobby.user.application.command.command.CreateUserResult;
 import com.dev.hobby.user.common.CustomException;
 import com.dev.hobby.user.common.UliGenerate;
-import com.dev.hobby.user.domain.model.UserDomain;
-import com.dev.hobby.user.domain.service.UserDuplicationChecker;
-import com.dev.hobby.user.external.persistence.event.SaveUserOutboxEvent;
+import com.dev.hobby.user.domain.model.User;
+import com.dev.hobby.user.domain.outbound.UserDuplicationChecker;
+import com.dev.hobby.user.external.persistence.command.SaveUserWithUpdateOutboxUseCase;
 import com.dev.hobby.user.external.persistence.service.UserExternalService;
 import com.dev.hobby.user.mapper.domain.UserDomainMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -32,7 +34,7 @@ public class UserDomainService {
 
     private final ObjectMapper objectMapper;  // 객체를 JSON으로 직렬화/역직렬화하기 위한 객체 맵퍼
 
-    private final OutboxHandler outboxHandler;  // 아웃박스 이벤트 생성 핸들러
+    private final SaveOutboxHandler saveOutboxHandler;  // 아웃박스 이벤트 생성 핸들러
 
 
     private final UserExternalService userExternalService;
@@ -44,7 +46,7 @@ public class UserDomainService {
      * @param createUserCmd 사용자 생성 요청 DTO
      * @return 생성된 사용자 고유 ID
      */
-    //@Transactional
+    @Transactional
     public CreateUserResult createUser(CreateUserCmd createUserCmd) {
         if(UserDuplicationChecker.isDuplicated(createUserCmd.getEmail()))
             throw new CustomException("이미 사용 중인 이메일입니다.");
@@ -58,40 +60,34 @@ public class UserDomainService {
             throw new CustomException("사용자 생성 중 오류가 발생했습니다");
         }
 
-        String uniqueId = uliGenerate.generate();  // 사용자 고유 ID 생성
+        String outboxId = uliGenerate.generate();  // 사용자 고유 ID 생성
+        String userId = uliGenerate.generate();  // 사용자 고유 ID 생성
         // 아웃박스 이벤트 엔티티 생성
-        var outbox = Outbox.builder()
-                .outboxId(uniqueId)  // 아웃박스 ID
-                .uniqueId(uniqueId)  // 사용자 고유 ID
-                .aggregateType("USER")  // 도메인 타입
-                .aggregateId(uniqueId)  // Aggregate 식별자
-                .eventType("CREATE_USER")  // 이벤트 종류
-                .version(1)  // 이벤트 버전
-                .status("PENDING")  // 상태
-                .retryCount(0)  // 재시도 횟수
-                .build();
-        outboxHandler.handler(outbox);
 
-        return completableFutureProcessCreateUserAndSave(createUserCmd, uniqueId, outbox);
+        saveOutboxHandler.CreateHandler(CreateOutboxCommand
+                .builder()
+                .outboxId(outboxId)
+                .aggregateType("USER")
+                .aggregateId(userId)
+                .eventType("CREATE_USER")
+                .build());
+
+        return completableFutureProcessCreateUserAndSave(createUserCmd, userId, outboxId);
     }
 
-    private CreateUserResult completableFutureProcessCreateUserAndSave(CreateUserCmd createUserCmd, String uniqueId, Outbox outbox){
-
-
+    private CreateUserResult completableFutureProcessCreateUserAndSave(CreateUserCmd createUserCmd, String userId, String outboxId){
         CompletableFuture.runAsync(() -> {
-
-
-            UserDomain userDomain = UserDomainMapper.toUserDomain(uniqueId, createUserCmd);
+            User user = UserDomainMapper.toUserDomain(userId, createUserCmd);
 
             // 비밀번호 암호화 등 복잡하고 오래걸리는 작업들 실행
             String encodedPassword = createUserCmd.getPassword();//passwordEncoder.encode(request.getPassword());
-            userDomain.setPassword(encodedPassword);
+            user.setPassword(encodedPassword);
 
-            userExternalService.saveUserOutbox(SaveUserOutboxEvent.builder()
-                    .userDomain(userDomain)
-                    .outbox(outbox)
+            userExternalService.saveUserAndUpdateOutbox(SaveUserWithUpdateOutboxUseCase.builder()
+                    .user(user)
+                    .outboxId(outboxId)
                     .build());
         });
-        return UserDomainMapper.toCreateUserResult(uniqueId, createUserCmd);
+        return UserDomainMapper.toCreateUserResult(userId, createUserCmd);
     }
 }

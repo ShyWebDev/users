@@ -1,9 +1,9 @@
 package com.dev.hobby.user.mapper.domain;
 
-import com.dev.hobby.user.api.dto.CreateUserCmd;
-import com.dev.hobby.user.api.dto.CreateUserResult;
-import com.dev.hobby.user.api.dto.GetUserResult;
-import com.dev.hobby.user.domain.model.UserDomain;
+import com.dev.hobby.user.application.command.command.CreateUserCmd;
+import com.dev.hobby.user.application.command.command.CreateUserResult;
+import com.dev.hobby.user.application.query.command.GetUserResult;
+import com.dev.hobby.user.domain.model.User;
 import lombok.experimental.UtilityClass;
 
 /**
@@ -15,25 +15,25 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class UserDomainMapper {
     // Domain → Entity 변환
-    public static UserDomain toUserDomain(String uniqueId, CreateUserCmd createUserCmd) {
-        return UserDomain.builder()
-                .uniqueId(uniqueId)
+    public static User toUserDomain(String userId, CreateUserCmd createUserCmd) {
+        return User.builder()
+                .userId(userId)
                 .email(createUserCmd.getEmail())
                 .password(createUserCmd.getPassword())
                 .name(createUserCmd.getName())
                 .build();
     }
 
-    public static CreateUserResult toCreateUserResult(String uniqueId, CreateUserCmd createUserCmd) {
+    public static CreateUserResult toCreateUserResult(String userId, CreateUserCmd createUserCmd) {
         return CreateUserResult.builder()
-                .uniqueId(uniqueId)
+                .userId(userId)
                 .callBackUrl(createUserCmd.getCallBackUrl())
                 .build();
     }
 
-    public static GetUserResult toGetUserResult(UserDomain domain) {
+    public static GetUserResult toGetUserResult(User domain) {
         return GetUserResult.builder()
-                .uniqueId(domain.getUniqueId())
+                .userId(domain.getUserId())
                 .email(domain.getEmail())
                 .build();
     }

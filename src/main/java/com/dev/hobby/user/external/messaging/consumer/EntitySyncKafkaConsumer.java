@@ -1,6 +1,6 @@
 package com.dev.hobby.user.external.messaging.consumer;
 
-import com.dev.hobby.user.application.sync.UserSyncService;
+import com.dev.hobby.user.domain.service.UserSyncService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;

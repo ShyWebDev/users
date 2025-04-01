@@ -1,6 +1,6 @@
 package com.dev.hobby.user.api.controller;
 
-import com.dev.hobby.user.api.dto.UserQueryResponse;
+import com.dev.hobby.user.api.response.UserQueryResponse;
 import com.dev.hobby.user.application.query.handler.GetUserHandler;
 import com.dev.hobby.user.common.CommonResponse;
 import com.dev.hobby.user.mapper.command.UserQueryMapper;
@@ -24,12 +24,12 @@ public class UserQueryController {
     private final GetUserHandler getUserHandler;
 
     @Operation(summary = "사용자조회")
-    @GetMapping("/{uniqueId}")
-    public ResponseEntity<CommonResponse<UserQueryResponse>> getUserByUniqueId(@PathVariable String uniqueId){
+    @GetMapping("/{userId}")
+    public ResponseEntity<CommonResponse<UserQueryResponse>> getUserByUniqueId(@PathVariable String userId){
         // 외부요청을 내부 명령 객체로 변환
         // 웹계층과 APP계층 분리
         // 객채 변환 로직을 중앙 집중하기 위해 MAPPER사용
-        var getUserCmd = UserQueryMapper.toGetUserCmd(uniqueId);
+        var getUserCmd = UserQueryMapper.toGetUserCmd(userId);
 
         // 결과 캡슐화
         // 생성된 CMD 객체를 핸들러에 전달해 비즈니스 로직실행

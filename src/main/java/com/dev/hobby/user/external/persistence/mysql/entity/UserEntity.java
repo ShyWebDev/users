@@ -19,8 +19,8 @@ import java.time.LocalDateTime;
 public class UserEntity {
 
     @Id
-    @Column(name = "unique_id", nullable = false, unique = true)
-    private String uniqueId;
+    @Column(name = "user_id", nullable = false, unique = true)
+    private String userId;
 
     @Column(name = "email", nullable = false, unique = true)
     private String email;

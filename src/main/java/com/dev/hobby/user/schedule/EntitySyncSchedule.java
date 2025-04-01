@@ -1,6 +1,6 @@
 package com.dev.hobby.user.schedule;
 
-import com.dev.hobby.user.application.sync.UserSyncService;
+import com.dev.hobby.user.domain.service.UserSyncService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
@@ -17,6 +17,6 @@ public class EntitySyncSchedule {
 
     @Scheduled(fixedDelay = 10000)
     public void syncDomains() {
-        userSyncService.syncUsers();
+        //userSyncService.syncUsers();
     }
 }

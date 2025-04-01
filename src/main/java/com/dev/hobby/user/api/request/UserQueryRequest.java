@@ -1,4 +1,4 @@
-package com.dev.hobby.user.api.dto;
+package com.dev.hobby.user.api.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
@@ -13,19 +13,16 @@ import java.time.LocalDateTime;
  */
 @Getter
 @Builder
-public class UserQueryResponse {
+public class UserQueryRequest {
 
     @Schema(description = "사용자 고유ID", example = "1")
-    private String uniqueId;
+    private String userId;
 
     @Schema(description = "사용자 이메일", example = "alice@example.com")
     private String email;
 
     @Schema(description = "사용자 이름", example = "Alice")
     private String name;
-
-    @Schema(description = "사용자 등급", example = "GOLD")
-    private String rank;
 
     private LocalDateTime createdAt;
 

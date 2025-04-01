@@ -1,9 +1,9 @@
 package com.dev.hobby.user.mapper.command;
 
-import com.dev.hobby.user.api.dto.CreateUserCmd;
-import com.dev.hobby.user.api.dto.CreateUserResult;
-import com.dev.hobby.user.api.dto.UserCmdRequest;
-import com.dev.hobby.user.api.dto.UserCmdResponse;
+import com.dev.hobby.user.application.command.command.CreateUserCmd;
+import com.dev.hobby.user.application.command.command.CreateUserResult;
+import com.dev.hobby.user.api.request.UserCmdRequest;
+import com.dev.hobby.user.api.response.UserCmdResponse;
 import lombok.experimental.UtilityClass;
 
 /**
@@ -26,7 +26,7 @@ public class UserCmdMapper {
 
     public static UserCmdResponse toUserCmdResponse(CreateUserResult createUserResult) {
         return UserCmdResponse.builder()
-                .uniqueId(createUserResult.getUniqueId())
+                .userId(createUserResult.getUserId())
                 .callBackUrl(createUserResult.getCallBackUrl())
                 .build();
     }

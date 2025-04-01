@@ -1,7 +1,7 @@
-package com.dev.hobby.user.domain.repository;
+package com.dev.hobby.user.domain.outbound;
 
 
-import com.dev.hobby.user.domain.model.UserDomain;
+import com.dev.hobby.user.domain.model.User;
 
 import java.util.Optional;
 
@@ -11,6 +11,6 @@ import java.util.Optional;
  */
 public interface UserQueryRepository{
 
-    void save(UserDomain userDomain);
-    Optional<UserDomain> findByUniqueId(String uniqueId);
+    void save(User user);
+    Optional<User> findByUserId(String userId);
 }

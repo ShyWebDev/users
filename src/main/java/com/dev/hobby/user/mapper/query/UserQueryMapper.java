@@ -1,6 +1,6 @@
 package com.dev.hobby.user.mapper.query;
 
-import com.dev.hobby.user.api.dto.UserQueryResponse;
+import com.dev.hobby.user.api.response.UserQueryResponse;
 import com.dev.hobby.user.external.persistence.mongo.entity.UserDocument;
 import lombok.experimental.UtilityClass;
 
@@ -14,7 +14,7 @@ public class UserQueryMapper {
 
     public UserQueryResponse toResponse(UserDocument document) {
         return UserQueryResponse.builder()
-                .uniqueId(document.getUniqueId())
+                .userId(document.getUserId())
                 .email(document.getEmail())
                 .name(document.getName())
                 .rank(document.getRank())

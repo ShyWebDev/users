@@ -1,7 +1,7 @@
 package com.dev.hobby.user.external.persistence.mysql.adapter;
 
-import com.dev.hobby.user.domain.model.UserDomain;
-import com.dev.hobby.user.domain.repository.UserCmdRepository;
+import com.dev.hobby.user.domain.model.User;
+import com.dev.hobby.user.domain.outbound.UserCmdRepository;
 import com.dev.hobby.user.external.persistence.mysql.jpa.JpaUserRepository;
 import com.dev.hobby.user.mapper.infra.UserInfraMapper;
 import lombok.RequiredArgsConstructor;
@@ -17,12 +17,12 @@ public class UserCmdRepositoryAdapter  implements UserCmdRepository {
     private final JpaUserRepository jpaUserRepository;
 
     @Override
-    public void save(UserDomain domain) {
+    public void save(User domain) {
         jpaUserRepository.save(UserInfraMapper.toUserEntity(domain));
     }
 
     @Override
-    public Optional<UserDomain> findByEmail(String email) {
+    public Optional<User> findByEmail(String email) {
         if(jpaUserRepository.findByEmail(email).isPresent())
             return Optional.of(UserInfraMapper.toDomain(jpaUserRepository.findByEmail(email).get()));
 
@@ -30,13 +30,13 @@ public class UserCmdRepositoryAdapter  implements UserCmdRepository {
     }
 
     @Override
-    public Optional<UserDomain> findByUniqueId(String uniqueId) {
-        var optional = jpaUserRepository.findByUniqueId(uniqueId);
+    public Optional<User> findByUserId(String userId) {
+        var optional = jpaUserRepository.findByUserId(userId);
         return optional.map(UserInfraMapper::toDomain);
     }
 
     @Override
-    public List<UserDomain> findTop50BySyncedAtIsNullOrderByCreatedAt() {
+    public List<User> findTop50BySyncedAtIsNullOrderByCreatedAt() {
         var entityList = jpaUserRepository.findTop50BySyncedAtIsNullOrderByCreatedAt();
         return entityList.stream().map(UserInfraMapper::toDomain).collect(Collectors.toList());
     }

@@ -1,4 +1,4 @@
-package com.dev.hobby.user.api.dto;
+package com.dev.hobby.user.application.query.command;
 
 import lombok.Builder;
 import lombok.Data;
@@ -6,5 +6,5 @@ import lombok.Data;
 @Data
 @Builder
 public class GetUserCmd {
-    private String uniqueId;
+    private String userId;
 }

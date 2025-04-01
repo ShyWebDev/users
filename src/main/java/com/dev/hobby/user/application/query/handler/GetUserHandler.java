@@ -1,8 +1,8 @@
 package com.dev.hobby.user.application.query.handler;
 
-import com.dev.hobby.user.api.dto.GetUserCmd;
-import com.dev.hobby.user.api.dto.GetUserResult;
-import com.dev.hobby.user.application.query.service.UserQueryService;
+import com.dev.hobby.user.application.query.command.GetUserCmd;
+import com.dev.hobby.user.application.query.command.GetUserResult;
+import com.dev.hobby.user.domain.service.UserQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

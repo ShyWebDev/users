@@ -1,6 +1,6 @@
 package com.dev.hobby.user.mapper.infra;
 
-import com.dev.hobby.user.domain.model.UserDomain;
+import com.dev.hobby.user.domain.model.User;
 import com.dev.hobby.user.external.persistence.mysql.entity.UserEntity;
 import lombok.experimental.UtilityClass;
 
@@ -12,19 +12,27 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class UserInfraMapper {
     // Domain → Entity 변환
-    public static UserEntity toUserEntity(UserDomain domain) {
+    public static UserEntity toUserEntity(User domain) {
         return UserEntity.builder()
-                .uniqueId(domain.getUniqueId())
+                .userId(domain.getUserId())
                 .email(domain.getEmail())
                 .password(domain.getPassword())
                 .name(domain.getName())
+                .createdAt(domain.getCreatedAt())
+                .updatedAt(domain.getUpdatedAt())
+                .syncedAt(domain.getSyncedAt())
                 .build();
     }
 
-    public static UserDomain toDomain(UserEntity entity) {
-        return UserDomain.builder()
+    public static User toDomain(UserEntity entity) {
+        return User.builder()
+                .userId(entity.getUserId())
                 .email(entity.getEmail())
+                .password(entity.getPassword())
                 .name(entity.getName())
+                .createdAt(entity.getCreatedAt())
+                .updatedAt(entity.getUpdatedAt())
+                .syncedAt(entity.getSyncedAt())
                 .build();
     }
 
