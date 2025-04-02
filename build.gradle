@@ -10,28 +10,19 @@ version = '0.0.1-SNAPSHOT'
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
+        vendor = JvmVendorSpec.AZUL
     }
 }
 
 repositories {
     mavenCentral()
-    maven {
-        url = uri("https://maven.pkg.github.com/ShyWebDev/outbox-module")
-        credentials {
-            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-            password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
-        }
-    }
-    maven {
-        url = uri("https://maven.pkg.github.com/ShyWebDev/ulid-module")
-        credentials {
-            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-            password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
-        }
-    }
+
 }
 
 dependencies {
+    implementation project(':ulid-module')
+    implementation project(':outbox-module')
+
     implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0"
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -53,9 +44,6 @@ dependencies {
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.testcontainers:mariadb'
-
-    implementation 'com.dev.hobby.ulid:ulid-module:1.0.2'
-    implementation 'com.dev.hobby.outbox:outbox-module:1.0.2'
 }
 
 tasks.named('test') {

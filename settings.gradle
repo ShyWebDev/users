@@ -1,8 +1,11 @@
 rootProject.name = 'user'
 
 if (file('D:/new-study/ulid-module').exists()) {
-    includeBuild('D:/new-study/ulid-module') // 로컬 경로
+    include(':ulid-module')
+    project(':ulid-module').projectDir = file('D:/new-study/ulid-module')
+
 }
 if (file('D:/new-study/outbox-module').exists()) {
-    includeBuild('D:/new-study/outbox-module')
+    include(':outbox-module')
+    project(':outbox-module').projectDir = file('D:/new-study/outbox-module')
 }
