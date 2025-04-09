@@ -1,9 +1,10 @@
 package com.dev.hobby.user.mapper.command;
 
 import com.dev.hobby.user.application.command.command.CreateUserCmd;
+import com.dev.hobby.user.application.command.command.CreateUserDetailCmd;
 import com.dev.hobby.user.application.command.command.CreateUserResult;
-import com.dev.hobby.user.api.request.UserCmdRequest;
-import com.dev.hobby.user.api.response.UserCmdResponse;
+import com.dev.hobby.user.inbound.api.request.UserCmdRequest;
+import com.dev.hobby.user.inbound.api.response.UserCmdResponse;
 import lombok.experimental.UtilityClass;
 
 /**
@@ -17,18 +18,23 @@ public class UserCmdMapper {
 
     public static CreateUserCmd toCreateUserCmd(UserCmdRequest userCmdRequest) {
         return CreateUserCmd.builder()
-                .email(userCmdRequest.getEmail())
-                .password(userCmdRequest.getPassword())
-                .name(userCmdRequest.getName())
-                .callBackUrl(userCmdRequest.getCallBackUrl())
+                .email(userCmdRequest.email())
+                .password(userCmdRequest.password())
+                .name(userCmdRequest.name())
+                .userDetail(CreateUserDetailCmd.builder()
+                        .nickname(userCmdRequest.nickname())
+                        .mobileNumber(userCmdRequest.mobileNumber())
+                        .address(userCmdRequest.address())
+                        .build())
+                .callBackUrl(userCmdRequest.callBackUrl())
                 .build();
     }
 
     public static UserCmdResponse toUserCmdResponse(CreateUserResult createUserResult) {
-        return UserCmdResponse.builder()
-                .userId(createUserResult.getUserId())
-                .callBackUrl(createUserResult.getCallBackUrl())
-                .build();
+        return new UserCmdResponse(
+                createUserResult.getUserId(),
+                createUserResult.getCallBackUrl()
+        );
     }
 
 }

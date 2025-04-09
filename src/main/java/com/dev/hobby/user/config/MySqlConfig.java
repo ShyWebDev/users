@@ -7,8 +7,11 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @Configuration
 @EnableJpaRepositories(
     basePackages = {
-            "com.dev.hobby.user.external.persistence.mysql.jpa",
+            "com.dev.hobby.user.outbound.persistence.mysql.jpa"
 })
-@EntityScan(basePackages = "com.dev.hobby.user.external.persistence.mysql.entity")
+@EntityScan(
+    basePackages = {
+            "com.dev.hobby.user.outbound.persistence.mysql.entity"
+})
 public class MySqlConfig {
 }

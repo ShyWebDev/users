@@ -1,7 +1,8 @@
 package com.dev.hobby.user.mapper.query;
 
-import com.dev.hobby.user.api.response.UserQueryResponse;
-import com.dev.hobby.user.external.persistence.mongo.entity.UserDocument;
+import com.dev.hobby.user.application.query.command.SyncUserCreateCmd;
+import com.dev.hobby.user.application.query.command.SyncUserDetailCreateCmd;
+import com.dev.hobby.user.inbound.message.request.UserSyncMessage;
 import lombok.experimental.UtilityClass;
 
 /**
@@ -12,47 +13,25 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class UserQueryMapper {
 
-    public UserQueryResponse toResponse(UserDocument document) {
-        return UserQueryResponse.builder()
-                .userId(document.getUserId())
-                .email(document.getEmail())
-                .name(document.getName())
-                .rank(document.getRank())
+    public SyncUserCreateCmd toSyncUserCreateCmd(UserSyncMessage msg) {
+        SyncUserDetailCreateCmd userDetailCreateCmd = null;
+
+        if(msg.nickname() != null || msg.mobileNumber() != null || msg.address() != null) {
+            userDetailCreateCmd = SyncUserDetailCreateCmd.builder()
+                    .nickname(msg.nickname())
+                    .mobileNumber(msg.mobileNumber())
+                    .address(msg.address())
+                    .build();
+        }
+
+        return SyncUserCreateCmd.builder()
+                .userId(msg.userId())
+                .email(msg.email())
+                .password(msg.password())
+                .name(msg.name())
+                .userDetail(userDetailCreateCmd)
                 .build();
     }
 
-    /*
-    public static UserDocument toDocument(UserEntity entity) {
-        return UserDocument.builder()
-                .uniqueId(entity.getUniqueId())
-                .email(entity.getEmail())
-                .password(entity.getPassword())
-                .name(entity.getEmail())
-                .createdAt(entity.getCreatedAt())
-                .updatedAt(entity.getUpdatedAt())
-                .syncedAt(entity.getSyncedAt())
-                .build();
-    }
-
-    public static UserQueryResponse toResponse(UserDocument document) {
-        return UserQueryResponse.builder()
-                .uniqueId(document.getUniqueId())
-                .email(document.getEmail())
-                .name(document.getEmail())
-                .createdAt(document.getCreatedAt())
-                .updatedAt(document.getUpdatedAt())
-                .build();
-    }
-
-    public static UserDomain toDomain(UserEntity domain) {
-        return UserDomain.builder()
-                .uniqueId(domain.getUniqueId())
-                .email(domain.getEmail())
-                .name(domain.getEmail())
-                .createdAt(domain.getCreatedAt())
-                .updatedAt(domain.getUpdatedAt())
-                .build();
-    }
-    */
 
 }

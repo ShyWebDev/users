@@ -2,7 +2,7 @@ package com.dev.hobby.user.application.command.handler;
 
 import com.dev.hobby.user.application.command.command.CreateUserCmd;
 import com.dev.hobby.user.application.command.command.CreateUserResult;
-import com.dev.hobby.user.domain.service.UserDomainService;
+import com.dev.hobby.user.application.command.usecase.CreateUserUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -14,9 +14,9 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class CreateUserHandler {
 
-    private final UserDomainService userDomainService;  // 도메인 서비스
+    private final CreateUserUseCase createUserUseCase;  // 도메인 서비스
 
     public CreateUserResult handle(CreateUserCmd createUserCmd) {
-        return userDomainService.createUser(createUserCmd);
+        return createUserUseCase.createUser(createUserCmd);
     }
 }

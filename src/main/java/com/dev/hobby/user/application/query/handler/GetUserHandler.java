@@ -2,7 +2,7 @@ package com.dev.hobby.user.application.query.handler;
 
 import com.dev.hobby.user.application.query.command.GetUserCmd;
 import com.dev.hobby.user.application.query.command.GetUserResult;
-import com.dev.hobby.user.domain.service.UserQueryService;
+import com.dev.hobby.user.application.query.usecase.GetUserUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -14,9 +14,9 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class GetUserHandler {
 
-    private final UserQueryService userQueryService;  // 도메인 서비스
+    private final GetUserUseCase getUserUseCase;  // 도메인 서비스
 
     public GetUserResult handle(GetUserCmd getUserCmd) {
-        return userQueryService.getUser(getUserCmd);
+        return getUserUseCase.getUser(getUserCmd);
     }
 }

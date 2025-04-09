@@ -1,8 +1,10 @@
 package com.dev.hobby.user.mapper.infra;
 
 import com.dev.hobby.user.domain.model.User;
-import com.dev.hobby.user.external.messaging.event.UserCreatedEvent;
-import com.dev.hobby.user.external.persistence.mongo.entity.UserDocument;
+import com.dev.hobby.user.domain.model.UserDetail;
+import com.dev.hobby.user.outbound.messaging.message.UserCreatedEvent;
+import com.dev.hobby.user.outbound.messaging.message.UserSyncEvent;
+import com.dev.hobby.user.outbound.persistence.mongo.entity.UserDocument;
 import lombok.experimental.UtilityClass;
 
 /**
@@ -13,17 +15,28 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class UserDomainEventMapper {
 
-    public static UserCreatedEvent toUserCreatedEvent(User domain) {
-        return UserCreatedEvent.builder()
-                .uniqueId(domain.getUserId())
-                .email(domain.getEmail())
-                .password(domain.getPassword())
-                .name(domain.getName())
-                .createdAt(domain.getCreatedAt())
-                .updatedAt(domain.getUpdatedAt())
-                //.syncedAt(domain.getSyncedAt())
-                .build();
+    public static UserSyncEvent toUserSyncEvent(User domain, UserDetail userDetail) {
+        return new UserSyncEvent(
+                domain.getUserId(),
+                domain.getEmail(),
+                domain.getPassword(),
+                domain.getName(),
+                userDetail != null ? userDetail.getNickname() : null,
+                userDetail != null ? userDetail.getMobileNumber() : null,
+                userDetail != null ? userDetail.getAddress() : null);
     }
+
+    public static UserCreatedEvent toUserCreatedEvent(User domain, UserDetail userDetail) {
+        return new UserCreatedEvent(
+                domain.getUserId(),
+                domain.getEmail(),
+                domain.getPassword(),
+                domain.getName(),
+                userDetail != null ? userDetail.getNickname() : null,
+                userDetail != null ? userDetail.getMobileNumber() : null,
+                userDetail != null ? userDetail.getAddress() : null);
+    }
+
 
 
     public static UserDocument toDocument(User domain) {
@@ -34,7 +47,6 @@ public class UserDomainEventMapper {
                 .name(domain.getName())
                 .createdAt(domain.getCreatedAt())
                 .updatedAt(domain.getUpdatedAt())
-                .syncedAt(domain.getSyncedAt())
                 .build();
     }
 
@@ -46,7 +58,6 @@ public class UserDomainEventMapper {
                 .name(document.getName())
                 .createdAt(document.getCreatedAt())
                 .updatedAt(document.getUpdatedAt())
-                .syncedAt(document.getSyncedAt())
                 .build();
     }
 

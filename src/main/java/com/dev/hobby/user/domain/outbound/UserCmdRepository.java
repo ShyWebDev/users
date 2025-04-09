@@ -3,7 +3,6 @@ package com.dev.hobby.user.domain.outbound;
 
 import com.dev.hobby.user.domain.model.User;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -16,6 +15,4 @@ public interface UserCmdRepository {
     Optional<User> findByEmail(String email);
 
     Optional<User> findByUserId(String userId);
-
-    List<User> findTop50BySyncedAtIsNullOrderByCreatedAt();
 }

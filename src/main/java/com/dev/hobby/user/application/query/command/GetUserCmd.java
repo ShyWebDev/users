@@ -1,9 +1,9 @@
 package com.dev.hobby.user.application.query.command;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 @Builder
 public class GetUserCmd {
     private String userId;

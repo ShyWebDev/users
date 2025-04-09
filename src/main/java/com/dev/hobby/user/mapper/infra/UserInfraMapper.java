@@ -1,7 +1,7 @@
 package com.dev.hobby.user.mapper.infra;
 
 import com.dev.hobby.user.domain.model.User;
-import com.dev.hobby.user.external.persistence.mysql.entity.UserEntity;
+import com.dev.hobby.user.outbound.persistence.mysql.entity.UserEntity;
 import lombok.experimental.UtilityClass;
 
 /**
@@ -20,7 +20,6 @@ public class UserInfraMapper {
                 .name(domain.getName())
                 .createdAt(domain.getCreatedAt())
                 .updatedAt(domain.getUpdatedAt())
-                .syncedAt(domain.getSyncedAt())
                 .build();
     }
 
@@ -32,7 +31,6 @@ public class UserInfraMapper {
                 .name(entity.getName())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
-                .syncedAt(entity.getSyncedAt())
                 .build();
     }
 

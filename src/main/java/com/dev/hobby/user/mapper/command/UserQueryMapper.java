@@ -1,8 +1,11 @@
 package com.dev.hobby.user.mapper.command;
 
+import com.dev.hobby.outbox.domain.model.Outbox;
 import com.dev.hobby.user.application.query.command.GetUserCmd;
 import com.dev.hobby.user.application.query.command.GetUserResult;
-import com.dev.hobby.user.api.response.UserQueryResponse;
+import com.dev.hobby.user.domain.model.User;
+import com.dev.hobby.user.domain.model.UserDetail;
+import com.dev.hobby.user.inbound.api.response.UserQueryResponse;
 import lombok.experimental.UtilityClass;
 
 /**
@@ -23,10 +26,38 @@ public class UserQueryMapper {
     }
 
     public static UserQueryResponse toUserQueryResponse(GetUserResult getUserResult) {
-        return UserQueryResponse.builder()
-                .userId(getUserResult.getUserId())
-                .email(getUserResult.getEmail())
-                .build();
+        if(getUserResult.isExists()){
+            User user = getUserResult.getUser();
+            UserDetail userDetail = getUserResult.getUserDetail();
+
+            return new UserQueryResponse(
+                    user.getUserId(),
+                    user.getEmail(),
+                    user.getName(),
+                    userDetail.getNickname(),
+                    userDetail.getMobileNumber(),
+                    userDetail.getAddress(),
+                    null,
+                    null,
+                    user.getCreatedAt(),
+                    user.getUpdatedAt()
+            );
+        }
+
+        Outbox outbox = getUserResult.getOutbox();
+
+        return new UserQueryResponse(
+                outbox.getAggregateId(),
+                null,
+                null,
+                null,
+                null,
+                null,
+                outbox.getCallbackUrl(),
+                outbox.getStatus().name(),
+                outbox.getCreatedAt(),
+                outbox.getUpdatedAt()
+        );
     }
 
 
